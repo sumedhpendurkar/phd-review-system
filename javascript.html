@@ -1,0 +1,58 @@
+<script>
+  function submit_button(){
+     
+     var userInfo = {};
+     userInfo.firstname = document.getElementById("fname").value;
+     userInfo.lastname = document.getElementById("lname").value;
+     userInfo.email = document.getElementById("email").value;
+     userInfo.reviewyear = document.getElementById("year").value;
+     userInfo.fileContent = document.getElementById("fileContent").value;
+     userInfo.filename = document.getElementById("filename").value;
+     console.log(userInfo);
+     
+     google.script.run.submitClicked(userInfo);
+     
+     document.getElementById("fname").value = "";
+     document.getElementById("lname").value = "";
+     document.getElementById("email").value = "";
+     document.getElementById("year").value = "--Select--";
+     document.getElementById("cv").value = "";
+     document.getElementById("fileContent").value="";
+     document.getElementById("filename").value="";
+     
+//     console.log("submit_function completed");
+     
+  }
+  
+  function UploadFile(){
+    
+    var file = document.getElementById("cv").files;
+    if(file.length>0){
+      var reader = new FileReader();
+      reader.onload = function(){
+      document.getElementById("fileContent").innerHTML=reader.result;
+      document.getElementById("filename").innerHTML=reader.name;
+      }
+      reader.readAsDataURL(file[0]);
+    } 
+    submit_button();
+    
+    console.log("upload function completed");
+    
+  }
+  
+  document.getElementById("fileContent").innerHTML="hello";
+  var current_date = new Date();
+  var current_year = current_date.getFullYear();
+  
+  var year = 2000;
+  var till = current_year;
+  var options = "";
+  for(var y=year; y<=till; y++){
+    options += "<option>"+ y +"</option>";
+  }
+  
+  document.getElementById("year").innerHTML = options;
+  
+ 
+</script>
