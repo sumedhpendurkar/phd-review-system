@@ -2,6 +2,11 @@
 <html>
   <head>
     <base target="_top">
+    <script>
+      window.onload = function(e) {
+        resetProfileFields();
+      };
+    </script>
   </head>
   <body>
      <center><h2> Student Profile </h2></center>
@@ -15,19 +20,13 @@
      
      <label for="cv">CV :</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      <input id="cv" type="file">
-    
-    
-     
-     a<input type="text" id="fileContent">
-     a<input type="text" id="filename"> 
      
      <br>
      <label for="year">Review Year:</label> &nbsp;&nbsp;&nbsp;&nbsp;
      <select id="year"></select><br>
     
-    
      <br>
-     <button onclick="submit_button()" id="button"> Submit </button>
+     <button onclick="submitProfile()">Submit</button>
      
   <?!= include("javascript"); ?>
   </body>
