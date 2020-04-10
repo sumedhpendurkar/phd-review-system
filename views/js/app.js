@@ -4,18 +4,7 @@ function load_monitor(){
   M.textareaAutoResize($('#textarea1'));
 
 }
-console.log("In load Monitor");
-var d = new Date();
-for(y = d.getFullYear(); y > 1850; y--) {
-        var optn = document.createElement("OPTION");
-        optn.text = y;
-        optn.value = y;
 
-        if (y == d.getFullYear()) {
-            optn.selected = true;
-        }
-        document.getElementById('year').options.add(optn);
-}
 function EditReview(){
   console.log("here");
 }
