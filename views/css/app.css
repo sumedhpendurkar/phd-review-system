@@ -24,3 +24,7 @@ html, body, .my-wrapper {
   vertical-align: middle !important;
   padding-bottom: 3px;
 }
+
+.cancel {
+  background:crimson;
+}
