@@ -82,13 +82,13 @@
               <td>X</td>
               <td> 3 </td>
               <td> Fall 2019 </td>
-              <td> Pass (2/3)</td>
+              <td> Pass</td>
               <td> No </td>
               <td> <a href="#"> View </a> </td>
               <td> NA </td>
               <td> <a href="#"> View </a> </td>
-              <th><a class="modal-trigger" href="#view-student-info"> <i class="material-icons">pageview</i></a>
-                 <a href="#upload-review" class='modal-trigger'><i class="material-icons">edit</i> </a>
+              <td> <a class="waves-effect waves-light modal-trigger btn" href="#view-student-info"> Details </a>
+                <a class="waves-effect waves-light modal-trigger btn" href="#upload-review"> Add Review </a> </td>
             </tr>
             <tr>
               <td>830000049</td>
@@ -96,12 +96,12 @@
               <td>Dr. Hank Walker</td>
               <td> 4 </td>
               <td> Fall 2019 </td>
-              <td> Fail (1/3) </td>
+              <td> Fail </td>
               <td> Yes </td>
               <td> <a href="#"> View </a> </td>
               <td> <a href="#"> View </a> </td>
               <td> <a href="#"> View </a> </td>
-              <th> <i class="material-icons">pageview</i> <i class="material-icons">edit</i> </th>
+              <td> <a class="waves-effect waves-light btn" href="#"> Details </a> <a class="waves-effect waves-light btn" href="#"> Add Review </a> </td>
             </tr>
           </tbody>
         </table>
@@ -113,15 +113,15 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s3">
-                  <input id="ln" type="text" value="Pendurkar" disabled>
+                  <input id="ln" type="text" disabled>
                   <label for="ln">Last Name</label>
                 </div>
                 <div class="input-field col s3">
-                  <input id="fn" type="text" class="validate" value = "Sumedh" disabled>
+                  <input id="fn" type="text" class="validate"  disabled>
                   <label for="fn">First Name</label>
                 </div>
                 <div class="input-field col s2">
-                  <input id="uin_" type="text" class="validate" value="830000048" disabled>
+                  <input id="uin_" type="text" class="validate"  disabled>
                   <label for="uin_">UIN</label>
                 </div>
                 <div class="input-field col s4">
@@ -130,36 +130,84 @@
                 </div>
               </div>
               <div class='row'>
-                <div class="input-field col s2">
-                  <input id="start-sem" type="text" class="validate" value="Fall 2019" disabled>
-                  <label for="uin">Start Semester</label>
+                <div class="input-field col s3">
+                  <select id = "start-semester" name="start-semester"  disabled>
+                      <option value="" disabled selected>Choose your option</option>
+                  </select>
+                  <label for="uin"> Start Semester </label>
+                </div>
+                <div class="input-field col s2 ">
+                  <select id="qual" class="validate"  disabled>
+                    <option value="pass" selected>Pass</option>
+                    <option value="fail" selected>Fail</option>
+                  </select>
+                  <label for="qual_exam">Qual Exam</label>
                 </div>
                 <div class="input-field col s2">
-                  <input id="qual" type="text" class="validate" value="No (1/3)" disabled>
-                  <label for="uin">Qual Exam</label>
+                  <select id="attempts" class="validate"  disabled>
+                    <option value="1" selected>1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3" selected>3</option>
+                  </select>
+                  <label for="attempts">Attempts completed</label>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="input-field col s3">
+                  <select id="advisor" class="validate" disabled>
+                    <option value="null" disabled selected>choose advisor</option>
+                  </select>
+                  <label for="advisor">Advisor</label>
+                </div>
+                <div class="input-field col s3">
+                  <select id="co-advisor" class="validate" disabled>
+                    <option value="null" disabled selected>Choose co-advisor</option>
+                    <option value="none">no co-advisor</option>
+                  </select>
+                  <label for="advisor">Co-Advisor</label>
                 </div>
                 <div class="input-field col s2">
-                  <input id="degree-plan" type="text" class="validate" value="Yes" disabled>
-                  <label for="uin">Degree Plan Filed?</label>
-                </div>
-                <div class="input-field col s2">
-                  <input id="prelim-date" type="text" class="validate" value="02/02/2021" disabled>
-                  <label for="uin">Prelim Date</label>
-                </div>
-                <div class="input-field col s2">
-                  <input id="proposal-date" type="text" class="validate" value="02/04/2021" disabled>
-                  <label for="uin">Proposal Date</label>
-                </div>
-                <div class="input-field col s2">
-                  <input id="defense-date" type="text" class="validate" value="04/04/2021" disabled>
-                  <label for="uin">Final Defense Date</label>
+                  <input id="rating" type="text" class="validate"  disabled>
+                  <label for="rating">Rating</label>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="input-field col s2">
+                  <select id="degree-plan" class="validate" disabled>
+                    <option value="yes" selected>Yes</option>
+                    <option value="no" selected>No</option>
+                  </select>
+                  <label for="dpf">Degree Plan Filed?</label>
+                </div>
+                <div class="input-field col s2">
+                  <input id="prelim-date" type="text" class="datepicker"  disabled>
+                  <label for="prelim-date">Prelim Date</label>
+                </div>
+                <div class="input-field col s2" >
+                <input type="text" class="datepicker" id="proposal-date" disabled>
+                  <label for="proposal-date">Proposal Date</label>
+                </div>
+                <div class="input-field col s2" disabled>
+                  <input type="text" class="datepicker" id="defense-date" disabled>
+                  <label for="defense-date">Final Defense Date</label>
+                </div>
+              </div>
+
+            <div class="row">
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View CV
+              </button>
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View Student Report
+              </button>
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View Improvement Plan
+              </button>
+            </div>
             </form>
           </div>
           <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Okay</a>
           </div>
         </div>
 
