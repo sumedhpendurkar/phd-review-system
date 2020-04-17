@@ -8,3 +8,23 @@ function getAllStudentRecords() {
   Logger.log(student_records);
   return student_records;
 }
+
+function handleSearchBtnClickedByUser(userInfo){
+  
+  var filteredData = getAllStudentRecords();
+  
+  
+  if(userInfo.firstName != null){
+    filteredData = ArrayLib.filterByText(filteredData, 2, userInfo.firstName);
+  }
+
+  if(userInfo.lastName != null){
+    filteredData = ArrayLib.filterByText(filteredData, 3, userInfo.lastName);
+  }
+  
+  if(userInfo.uin != null){
+    filteredData = ArrayLib.filterByText(filteredData, 4, userInfo.uin);
+  }
+  
+  return filteredData;
+}

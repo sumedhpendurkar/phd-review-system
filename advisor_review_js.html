@@ -7,20 +7,10 @@ function submitStudentReview() {
     reviewInfo.commentsForStudent
 }
 
-                <th>UIN</th>
-                <th>Name</th>
-                <th>Advisor</th>
-                <th> Review Rating </th>
-                <th> Start Semester </th>
-                <th> Qual Exam </th>
-                <th> Degree Plan Submitted?</th>
-                <th> Student Report </th>
-                <th> Improvement Plan </th>
-                <th> CV </th>
-                <th> Actions </th>
-             */
+*/
 
-//console.log(records);
+
+// ---------- slickgrid stuff ------------
 
 var grid;
 var columns = [
@@ -101,7 +91,7 @@ var columns = [
     field: 'add_review',
     sortable: false,
     formatter: linkFormatter,
-    width: 145  },
+    width: 144  },
 ];
 
 function dayFormatter(row, cell, value, columnDef, dataContext) {
@@ -182,6 +172,7 @@ $(function() {
       d["more_student_details"] = "<a href=\"index.html\" style = \" color:blue;\"><u>Details</u></a>",
       d["add_review"] = "<a href=\"index.html\" style = \" color:blue;\"><u>Add Review</u></a>"
       
+      // data can also be populated this way:
       /*data[i] = {
           uin: all_student_records[i][4],
           name: all_student_records[i][3] + ', ' + all_student_records[i][2],
@@ -225,6 +216,46 @@ $(function() {
 });
 
 }
+
+
+// ---------- slickgrid stuff end ------------
+
+
+
+
+
+// ---------- search ------------
+
+document.getElementById("searchBtn").addEventListener("click", searchBtnClicked);
+
+  function searchBtnClicked(){
+    var userInfo = {}
+    
+    var firstName = document.getElementById("first_name").value;
+    if(firstName.length > 0){
+      userInfo.firstName = firstName;
+    }
+    
+    var lastName = document.getElementById("last_name").value;
+    if(lastName.length > 0){
+      userInfo.lastName = lastName;
+    }
+    
+    var uin = document.getElementById("uin").value;
+    if(uin.length > 0){
+      userInfo.uin = uin;
+    }
+    
+    google.script.run.withSuccessHandler(onSuccess).handleSearchBtnClickedByUser(userInfo);
+    
+  }
+
+// ---------- search end ------------
+
+
+
+
+
 
 </script>
 
