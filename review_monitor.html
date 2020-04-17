@@ -2,12 +2,23 @@
   <!DOCTYPE html>
   <html>
     <head>
+      <!--Import SlickGrid Stylesheets-->
+      <link rel="stylesheet" href="https://mleibman.github.io/SlickGrid/slick.grid.css" />
+      <link rel="stylesheet" href="https://mleibman.github.io/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom.css" />
+      <link rel="stylesheet" href="https://github.com/mleibman/SlickGrid/blob/master/slick-default-theme.css" />
+      <script data-require="jquery" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+      
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
       <!--Import materialize.css-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
       <!--Let browser know website is optimized for mobile-->
-      <link rel="stylesheet" href="css/app.css">
+      <!--link rel="stylesheet" href="css/app.css"-->
+      
+      <?!= include('css_app'); ?>
+      <?!= include('advisor_review_css'); ?>
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
@@ -58,7 +69,7 @@
           </form>
         </div>
 
-        <table class="highlight centered responsive-table">
+        <!--table class="highlight centered responsive-table">
           <thead>
             <tr>
                 <th>UIN</th>
@@ -104,7 +115,9 @@
               <td> <a class="waves-effect waves-light btn" href="#"> Details </a> <a class="waves-effect waves-light btn" href="#"> Add Review </a> </td>
             </tr>
           </tbody>
-        </table>
+        </table-->
+        
+        <div id="myGrid" style="margin-left: 0.5%; margin-top: 10px; width: 99%; height:450px;"></div>
 
         <!-- Modal Structure -->
         <div id="view-student-info" class="modal modal-fixed-footer">
@@ -210,6 +223,7 @@
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Okay</a>
           </div>
         </div>
+        
 
         <!-- Modal Structure -->
         <div id="upload-review" class="modal modal-fixed-footer">
@@ -444,6 +458,12 @@
 
 
       <!--JavaScript at end of body for optimized loading-->
+      <script src="https://mleibman.github.io/SlickGrid/lib/jquery-1.7.min.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/lib/jquery.event.drag-2.2.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/slick.core.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/slick.grid.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/plugins/slick.autotooltips.js"></script>
+      
       <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
       <script>
@@ -459,6 +479,7 @@
               document.getElementById('year').options.add(optn);
       }
       </script>
-      <script src="js/app.js"></script>
+      <?!= include("js_app") ?>
+      <?!= include("advisor_review_js") ?>
     </body>
   </html>
