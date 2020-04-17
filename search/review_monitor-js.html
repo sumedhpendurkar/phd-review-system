@@ -1,0 +1,89 @@
+<script>
+function load_monitor(){
+
+  M.textareaAutoResize($('#textarea1'));
+
+}
+
+function EditReview(){
+  console.log("here");
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, {});
+  });
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems, {dismissible: false, startingTop:'1%', endingTop:'0%'});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.datepicker');
+  var instances = M.Datepicker.init(elems);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
+});
+// Or with jQuery
+
+$(document).ready(function(){
+  $('.modal').modal();
+});
+
+
+  // Or with jQuery
+
+$(document).ready(function(){
+    $('select').formSelect();
+  });
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  var instances = M.FloatingActionButton.init(elems, {
+    direction: 'left',
+    hoverEnabled: false
+    });
+});
+
+document.getElementById("searchBtn").addEventListener("click", searchBtnClicked);
+
+  function searchBtnClicked(){
+    var userInfo = {}
+    
+    var firstName = document.getElementById("first_name").value;
+    if(firstName.length > 0){
+      userInfo.firstName = firstName;
+    }
+    
+    var lastName = document.getElementById("last_name").value;
+    if(lastName.length > 0){
+      userInfo.lastName = lastName;
+    }
+    
+    var uin = document.getElementById("uin").value;
+    if(uin.length > 0){
+      userInfo.uin = uin;
+    }
+    
+    google.script.run.handleSearchBtnClickedByUser(userInfo);
+    
+    
+    
+    /*
+    document.getElementById("user_f_name").value = "";
+    document.getElementById("user_l_name").value = "";
+    var countryElement = document.getElementById("user_country");
+    countryElement.selectedIndex = 0;
+    M.FormSelect.init(countryElement);
+    document.getElementById("user_zip_code").value = "";
+    document.getElementById("user_estimate").value = "";
+    M.updateTextFields();
+    */
+  }
+
+
+</script>
