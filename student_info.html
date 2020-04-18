@@ -23,7 +23,8 @@
             <a href="#" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li class="active"><a href="#">Student Information</a></li>
-              <li><a href="student_review.html">Reviews</a></li>
+              <script> console.log("hello world"+<?= getScriptUrl(); ?>)</script>
+              <li><a href="<?= getScriptUrl();?>?page=student_review.html">Reviews</a></li>
               <li><a href="index.html">Logout</a></li>
             </ul>
           </div>
@@ -33,12 +34,12 @@
       <div class="container">
           <div class="row">
             <div class="input-field col s3">
-              <input id="ln" type="text">
-              <label for="ln">Last Name</label>
+              <input id="fn" type="text" class="validate">
+              <label for="fn" class = ".active">First Name</label>
             </div>
             <div class="input-field col s3">
-              <input id="fn" type="text" class="validate">
-              <label for="fn">First Name</label>
+              <input id="ln" type="text">
+              <label for="ln">Last Name</label>
             </div>
             <div class="input-field col s2">
               <input id="uin_" type="text" class="validate">
@@ -53,21 +54,23 @@
             <div class="input-field col s3">
               <select id = "start-semester" name="start-semester">
                   <option value="" disabled selected>Choose your option</option>
+                  <option value="Fall" >Fall</option>
               </select>
-              <label for="uin"> Start Semester </label>
+              <label for="start-semester"> Start Semester </label>
             </div>
             <div class="input-field col s1">
               <select id="qual" class="validate">
-                <option value="pass" selected>Pass</option>
-                <option value="fail" selected>Fail</option>
+                <option value="pass" >Pass</option>
+                <option value="fail" >Fail</option>
               </select>
-              <label for="qual_exam">Qual Exam</label>
+              <label for="qual">Qual Exam</label>
             </div>
             <div class="input-field col s2">
-              <select id="attempts" class="validate">
-                <option value="1" selected>1</option>
-                <option value="2" selected>2</option>
-                <option value="3" selected>3</option>
+              <select id="attempts">
+                <option value="0" >0</option>
+                <option value="1" >1</option>
+                <option value="2" id ="num2">2</option>
+                <option value="3" >3</option>
               </select>
               <label for="attempts">Attempts completed</label>
             </div>
@@ -77,16 +80,19 @@
           <div class="row">
             <div class="input-field col s3">
               <select id="advisor" class="validate">
-                <option value="null" disabled selected>choose advisor</option>
+              <!--<option value="null" disabled selected>choose advisor</option>-->
+              <?!= get_advisor_list(); ?>
               </select>
+              
               <label for="advisor">Advisor</label>
             </div>
             <div class="input-field col s3">
               <select id="co-advisor" class="validate">
                 <option value="null" disabled selected>Choose co-advisor</option>
                 <option value="none">no co-advisor</option>
+                <?!= get_advisor_list(); ?>
               </select>
-              <label for="advisor">Co-Advisor</label>
+              <label for="co-advisor">Co-Advisor</label>
             </div>
           </div>
 
@@ -94,7 +100,7 @@
             <div class="input-field col s2">
               <select id="degree-plan" class="validate">
                 <option value="yes" selected>Yes</option>
-                <option value="no" selected>No</option>
+                <option value="no" >No</option>
               </select>
               <label for="dpf">Degree Plan Filed?</label>
             </div>
@@ -138,8 +144,12 @@
           </div>
         </div>
 
+        <div id="test">
+        
+        </div>
 
         <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <?!= include('javascript'); ?>
-      </body>
+        
+        </body>

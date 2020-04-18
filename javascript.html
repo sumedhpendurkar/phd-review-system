@@ -1,37 +1,37 @@
 <script>
   function resetProfileFields() {  
-////     var current_date = new Date();
-////     var current_year = current_date.getFullYear();
-////     
-////     var year = 2000;
-////     var till = current_year;
-////     var options = "";
-////     for(var y=year; y<=till; y++){
-////     options += "<option>"+ y +"</option>";
-////     }
-////     document.getElementById("year").innerHTML = options;
+//     var current_date = new Date();
+//     var current_year = current_date.getFullYear();
+//     
+//     var year = 2000;
+//     var till = current_year;
+//     var options = "";
+//     for(var y=year; y<=till; y++){
+//     options += "<option>"+ y +"</option>";
+//     }
      
+//   
+//     document.getElementById("advisor").options.add(options);
      google.script.run.withSuccessHandler(onSuccess).getProfileInformation();
+     M.updateTextFields();
+     
   }
-  
   
   function updateClicked(){     
     var userInfo = {};
     userInfo.firstname = document.getElementById("fn").value;
     userInfo.lastname = document.getElementById("ln").value;
+    userInfo.UIN = document.getElementById("uin_").value;
     userInfo.email = document.getElementById("email").value;
-//    userInfo.reviewyear = document.getElementById("year").value;
+    userInfo.startsem = document.getElementById("start-semester").value;
+    userInfo.qualstatus = document.getElementById("qual").value;
+    userInfo.numattempts = document.getElementById("attempts").value;
     userInfo.advisor = document.getElementById("advisor").value;
     userInfo.coadvisor = document.getElementById("co-advisor").value;
-    userInfo.first_sem_date  =  document.getElementById("start-semester").value;
-    userInfo.dplan_filed_date  =  document.getElementById("degree-plan").value;
-    userInfo.qual_passed = document.getElementById("qual").value;
-    userInfo.qual_attempts = document.getElementById("attempts").value;
-    userInfo.prelime_approved_date  =  document.getElementById("prelim-date").value;
-    userInfo.proposal_approved_date  =  document.getElementById("proposal-date").value;
+    userInfo.degreeplanstatus = document.getElementById("degree-plan").value;
+    userInfo.prelime_date  =  document.getElementById("prelim-date").value;
+    userInfo.proposal_date  =  document.getElementById("proposal-date").value;
     userInfo.defense_date = document.getElementById("defense-date").value;
-//    userInfo.final_exam_approved_date  =  document.getElementById("final_exam_approved").value;
-//    userInfo.dissertation_approved_date  =  document.getElementById("dissertation_approved").value;
   
     google.script.run.submitProfile(userInfo);
   
@@ -62,18 +62,24 @@
   }
   
   function onSuccess(userInfo) {
-    document.getElementById("email").value = userInfo.email;
+    
+    console.log(userInfo);
     document.getElementById("fn").value = userInfo.firstname;
     document.getElementById("ln").value = userInfo.lastname;
-//    document.getElementById("year").value = userInfo.reviewyear;
+    document.getElementById("uin_").value = userInfo.UIN;
+    document.getElementById("email").value = userInfo.email;
+    document.getElementById("start-semester").value = userInfo.startsem;
+    document.getElementById("qual").value = userInfo.qualstatus;
+    document.getElementById("attempts").value = userInfo.numattempts;
     document.getElementById("advisor").value = userInfo.advisor; 
-    document.getElementById("start-semester").value = userInfo.first_sem_date;
-    document.getElementById("degree-plan").value=userInfo.dplan_filed_date;
-    document.getElementById("qual").value = userInfo.qual_passed;
-    document.getElementById("prelim_approved").value = userInfo.prelime_approved_date;
-    document.getElementById("proposal_approved").value = userInfo.proposal_approved_date;
-//    document.getElementById("final_exam_approved").value = userInfo.final_exam_approved_date;
-//    document.getElementById("dissertation_approved").value = userInfo.dissertation_approved_date;
+//    $('#advisor').val('E'); 
+    document.getElementById("num2").selected = "selected";
+    document.getElementById("co-advisor").value = userInfo.coadvisor;
+    document.getElementById("degree-plan").value = userInfo.degreeplanstatus;
+    document.getElementById("prelim-date").value = userInfo.prelime_date;
+    document.getElementById("proposal-date").value = userInfo.proposal_date;
+    document.getElementById("defense-date").value = userInfo.defense_date;
+    
 
   }
   
