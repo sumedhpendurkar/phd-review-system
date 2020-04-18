@@ -1,15 +1,18 @@
 <script>
 /*document.getElementById("").addEventListener("click", submitStudentReview);
+
 function submitStudentReview() {
     var reviewInfo = {};
     reviewInfo.uin = document.getElementById("").value();
     reviewInfo.commentsForStudent
 }
+
 */
 
 // ---------- slickgrid stuff ------------
 
 
+// ---------- slickgrid stuff ------------
 
 var grid;
 var columns = [
@@ -168,9 +171,8 @@ $(function() {
       d["student_report"] = "NA",
       d["improvement_plan"] = "NA",
       d["cv"] = "NA",
-      d["more_student_details"] = "<a href=\"https://www.google.com/\"><u> Details </u></a>",  
-      d["add_review"] = "<a class='waves-effect waves-light modal-trigger btn' href='#upload-review'> Add Review </a>"
-      
+      d["more_student_details"] = "<a href=\"index.html\" style = \" color:blue;\"><u>Details</u></a>",
+      d["add_review"] = "<a href=\"index.html\" style = \" color:blue;\"><u>Add Review</u></a>"
 
       
       // data can also be populated this way:
@@ -254,3 +256,4 @@ document.getElementById("searchBtn").addEventListener("click", searchBtnClicked)
 // ---------- search end ------------
 
 </script>
+
