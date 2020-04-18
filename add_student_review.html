@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
+      <!--Let browser know website is optimized for mobile-->
+      <!--link rel="stylesheet" href="css/app.css"-->
+      
+      <?!= include('css_app'); ?>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    
+    <div id="upload-review" style = "margin-left: 10px;">
+          <div>
+            <h4>Review for Sumedh Dattaguru</h4>
+            <form class="col s12">
+              <table class="highlight centered">
+
+                <thead>
+                <tr>
+                    <th>Review Year</th>
+                    <th>Open Date</th>
+                    <th>Review Deadline</th>
+                </tr>
+              </thead>
+
+                <tbody>
+                <tr>
+                  <td>2014</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>2015</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>2016</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>2017</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+
+              </table>
+
+              <br>
+
+              <div class="row">
+
+                <div class="col s4">
+                  <p align="center">
+                    <label>
+                      <input type="checkbox" checked="checked" disabled="disabled" />
+                      <span>Decision Letter</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="center">
+                    <label>
+                      <input type="checkbox" disabled="disabled" />
+                      <span>Curriculum Vitae</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="center">
+                    <label>
+                      <input type="checkbox" disabled="disabled" />
+                      <span>Student Report</span>
+                    </label>
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col s6">
+                  <h6>Comments For Student</h6>
+                  <textarea id="textarea1" class="materialize-textarea"></textarea>
+                </div>
+
+                <div class="col s6">
+                  <h6>Comments For Faculty</h6>
+                  <textarea id="textarea2" class="materialize-textarea"></textarea>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="input-field col s12">
+                  <select>
+                    <option disabled selected>Choose your option</option>
+                    <option>Not Rated (X)</option>
+                    <option >Unsatisfactory (U)</option>
+                    <option >Needs Improvement (N)</option>
+                    <option >Unsatisfactory (S)</option>
+                  </select>
+                  <label>Rating</label>
+                </div>
+
+              </div>
+
+              <div class="row">
+                Notes (select all that apply)
+              </div>
+              <div class="row">
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Needs to improve grade</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>No student report available</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox" checked="false"/>
+                      <span>Misconduct</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Needs to pass qualifer exam</span>
+                    </label>
+                  </p>
+                </div>
+
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Needs to find advisor</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Need to file degree plan</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Need to do prelim</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Need to do submit proposal</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Need to do finish soon</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s4">
+                  <p align="left">
+                    <label>
+                      <input type="checkbox"/>
+                      <span>Need to do file degree plan</span>
+                    </label>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#!">Cancel</a>
+            <a href="#!">Submit</a>
+          </div>
+        </div>
+        
+        
+        <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      
+      <?!= include("js_app") ?>
+    
+    
+  </body>
+</html>

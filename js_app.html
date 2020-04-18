@@ -1,4 +1,5 @@
 <script>
+
 function load_monitor(){
 
   M.textareaAutoResize($('#textarea1'));
@@ -48,42 +49,4 @@ document.addEventListener('DOMContentLoaded', function() {
     hoverEnabled: false
     });
 });
-
-document.getElementById("searchBtn").addEventListener("click", searchBtnClicked);
-
-  function searchBtnClicked(){
-    var userInfo = {}
-    
-    var firstName = document.getElementById("first_name").value;
-    if(firstName.length > 0){
-      userInfo.firstName = firstName;
-    }
-    
-    var lastName = document.getElementById("last_name").value;
-    if(lastName.length > 0){
-      userInfo.lastName = lastName;
-    }
-    
-    var uin = document.getElementById("uin").value;
-    if(uin.length > 0){
-      userInfo.uin = uin;
-    }
-    
-    google.script.run.handleSearchBtnClickedByUser(userInfo);
-    
-    
-    
-    /*
-    document.getElementById("user_f_name").value = "";
-    document.getElementById("user_l_name").value = "";
-    var countryElement = document.getElementById("user_country");
-    countryElement.selectedIndex = 0;
-    M.FormSelect.init(countryElement);
-    document.getElementById("user_zip_code").value = "";
-    document.getElementById("user_estimate").value = "";
-    M.updateTextFields();
-    */
-  }
-
-
 </script>

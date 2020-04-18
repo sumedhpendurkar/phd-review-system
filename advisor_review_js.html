@@ -1,0 +1,256 @@
+<script>
+/*document.getElementById("").addEventListener("click", submitStudentReview);
+function submitStudentReview() {
+    var reviewInfo = {};
+    reviewInfo.uin = document.getElementById("").value();
+    reviewInfo.commentsForStudent
+}
+*/
+
+// ---------- slickgrid stuff ------------
+
+
+
+var grid;
+var columns = [
+  { id: 'uin',
+    name: 'UIN', 
+    field: 'uin', 
+    sortable: true, 
+    width: 120 
+  },
+  {
+    id: 'name',
+    name: 'Name',
+    field: 'name',
+    sortable: true,
+    toolTip: 'Really Really Really Long Title',
+    width: 230
+  },
+  {
+    id: 'advisor',
+    name: 'Advisor',
+    field: 'advisor',
+    sortable: true,
+    width: 230
+  },
+  {
+    id: 'start_semester',
+    name: 'Start Semester',
+    field: 'start_semester',
+    sortable: true,
+    width: 100
+  },
+  {
+    id: 'qual_exam',
+    name: 'Qual Exam',
+    field: 'qual_exam',
+    sortable: true,
+    width: 80
+  },
+  {
+    id: 'degree_plan_submitted',
+    name: 'Degree Plan Submitted',
+    field: 'degree_plan_submitted',
+    sortable: true,
+    width: 120
+  },
+  {
+    id: 'student_report',
+    name: 'Student Report',
+    field: 'student_report',
+    sortable: true,
+    width: 100
+  },
+  {
+    id: 'improvement_plan',
+    name: 'Improvement Plan',
+    field: 'improvement_plan',
+    sortable: true,
+    width: 100
+  },
+  {
+    id: 'cv',
+    name: 'CV',
+    field: 'cv',
+    sortable: true,
+    width: 100
+  },
+  {
+    id: 'more_student_details',
+    name: 'More Student Details',
+    field: 'more_student_details',
+    sortable: false,
+    formatter: linkFormatter,
+    width: 100
+  },
+  {
+    id: 'add_review',
+    name: 'Add Review',
+    field: 'add_review',
+    sortable: false,
+    formatter: linkFormatter,
+    width: 144  },
+];
+
+function dayFormatter(row, cell, value, columnDef, dataContext) {
+  return value + ' days';
+}
+
+function dateFormatter(row, cell, value, columnDef, dataContext) {
+  return value.getMonth() + '/' + value.getDate() + '/' + value.getFullYear();
+}
+
+function linkFormatter(row, cell, value, columnDef, dataContext) {
+        return value;
+}
+
+var options = {
+  enableColumnReorder: false,
+  multiColumnSort: true,
+  enableCellNavigation: true,
+  autoExpandColumns: false,
+  forceFitColumns: false,
+  showFooterRow: false,
+ // rowHeight: 45,
+  //headerRowHeight: 50
+};
+
+
+var all_student_records;
+
+google.script.run.withSuccessHandler(onSuccess).getAllStudentRecords();
+
+function onSuccess(result) {
+all_student_records = result;
+console.log(all_student_records);
+
+
+
+
+
+$(function() {
+  var MS_PER_DAY = 24 * 60 * 60 * 1000;
+  var data = [];
+  
+  /*for (var i = 0; i < 500; i++) {
+    var startDate = new Date(
+      new Date('1/1/1980').getTime() +
+        Math.round(Math.random() * 365 * 25) * MS_PER_DAY
+    );
+    var endDate = new Date(
+      startDate.getTime() + Math.round(Math.random() * 365) * MS_PER_DAY
+    );
+    data[i] = {
+      uin: 'Task ' + i,
+      name: 'Super duper long string here',
+      advisor: Math.round(Math.random() * 30) + 2,
+      start_semester: Math.round(Math.random() * 100),
+      qual_exam: startDate,
+      degree_plan_submitted: endDate,
+      student_report: i % 5 == 0,
+      improvement_plan: i,
+      cv: i * 2,
+      more_student_details: i * 3,
+      add_review: i * 4
+    };
+  } */
+  
+  for(var i = 0; i < all_student_records.length; i++) {
+      var d = (data[i] = {});
+      
+      d["uin"] = all_student_records[i][4],
+      d["name"] = all_student_records[i][3] + ', ' + all_student_records[i][2],
+      d["advisor"] = all_student_records[i][9],
+      d["start_semester"] = all_student_records[i][6],
+      d["qual_exam"] = all_student_records[i][12],
+      d["degree_plan_submitted"] = all_student_records[i][11],
+      d["student_report"] = "NA",
+      d["improvement_plan"] = "NA",
+      d["cv"] = "NA",
+      d["more_student_details"] = "<a href=\"https://www.google.com/\"><u> Details </u></a>",  
+      d["add_review"] = "<a class='waves-effect waves-light modal-trigger btn' href='#upload-review'> Add Review </a>"
+      
+
+      
+      // data can also be populated this way:
+      /*data[i] = {
+          uin: all_student_records[i][4],
+          name: all_student_records[i][3] + ', ' + all_student_records[i][2],
+          advisor: all_student_records[i][9],
+          start_semester: all_student_records[i][6],
+          qual_exam: all_student_records[i][12],
+          degree_plan_submitted: all_student_records[i][11],
+          student_report: "NA",
+          improvement_plan: "NA",
+          cv: "NA",
+          more_student_details: "NA",
+          add_review: "<a href=\"index.html\">Add Review</a>"
+      };*/
+  }
+  
+
+  grid = new Slick.Grid('#myGrid', data, columns, options);
+
+  grid.registerPlugin( new Slick.AutoTooltips({ enableForHeaderCells: true }) );
+
+  grid.onSort.subscribe(function(e, args) {
+    var cols = args.sortCols;
+
+    data.sort(function(dataRow1, dataRow2) {
+      for (var i = 0, l = cols.length; i < l; i++) {
+        var field = cols[i].sortCol.field;
+        var sign = cols[i].sortAsc ? 1 : -1;
+        var value1 = dataRow1[field],
+          value2 = dataRow2[field];
+        var result = (value1 == value2 ? 0 : value1 > value2 ? 1 : -1) * sign;
+        if (result != 0) {
+          return result;
+        }
+      }
+      return 0;
+    });
+    //grid.setHeaderRowHeight(30);
+    grid.invalidate();
+    grid.render();
+  });
+});
+
+}
+
+
+// ---------- slickgrid stuff end ------------
+
+
+
+
+
+// ---------- search ------------
+
+document.getElementById("searchBtn").addEventListener("click", searchBtnClicked);
+
+  function searchBtnClicked(){
+    var userInfo = {}
+    
+    var firstName = document.getElementById("first_name").value;
+    if(firstName.length > 0){
+      userInfo.firstName = firstName;
+    }
+    
+    var lastName = document.getElementById("last_name").value;
+    if(lastName.length > 0){
+      userInfo.lastName = lastName;
+    }
+    
+    var uin = document.getElementById("uin").value;
+    if(uin.length > 0){
+      userInfo.uin = uin;
+    }
+    
+    google.script.run.withSuccessHandler(onSuccess).handleSearchBtnClickedByUser(userInfo);
+    
+  }
+
+// ---------- search end ------------
+
+</script>

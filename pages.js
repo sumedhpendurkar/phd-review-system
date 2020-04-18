@@ -29,5 +29,3 @@ function getPage() {
   return pt;
 
 }
-
-  

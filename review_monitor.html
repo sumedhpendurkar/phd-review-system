@@ -1,0 +1,152 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import SlickGrid Stylesheets-->
+      <link rel="stylesheet" href="https://mleibman.github.io/SlickGrid/slick.grid.css" />
+      <link rel="stylesheet" href="https://mleibman.github.io/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom.css" />
+      <link rel="stylesheet" href="https://github.com/mleibman/SlickGrid/blob/master/slick-default-theme.css" />
+      <script data-require="jquery" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+      
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
+      <!--Let browser know website is optimized for mobile-->
+      <!--link rel="stylesheet" href="css/app.css"-->
+      
+      <?!= include('css_app'); ?>
+      <?!= include('advisor_review_css'); ?>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body onload="load_monitor()">
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper tamu-navbar">
+            <a href="#" class="brand-logo">Ph.D. Review System</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li class="active"><a href="#">Review Monitor</a></li>
+              <li><a href="index.html">Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <h3> Review Monitor </h3>
+
+
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s3">
+                <input id="last_name" type="text" class="validate">
+                <label for="last_name">Last Name</label>
+              </div>
+              <div class="input-field col s3">
+                <input id="first_name" type="text" class="validate">
+                <label for="first_name">First Name</label>
+              </div>
+              <div class="input-field col s2">
+                <input id="uin" type="text" class="validate" data-length="10">
+                <label for="uin">UIN</label>
+              </div>
+              <div class="input-field col s2">
+                <select id="year">
+                  <option value="" disabled selected>Choose Year</option>
+                </select>
+                <label>Select Review Year</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="center">
+                <a id="searchBtn" class="waves-effect waves-light btn">Search</a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!--table class="highlight centered responsive-table">
+          <thead>
+            <tr>
+                <th>UIN</th>
+                <th>Name</th>
+                <th>Advisor</th>
+                <th> Review Rating </th>
+                <th> Start Semester </th>
+                <th> Qual Exam </th>
+                <th> Degree Plan Submitted?</th>
+                <th> Student Report </th>
+                <th> Improvement Plan </th>
+                <th> CV </th>
+                <th> Actions </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>830000048</td>
+              <td>Pendurkar, Sumedh</td>
+              <td>X</td>
+              <td> 3 </td>
+              <td> Fall 2019 </td>
+              <td> Pass</td>
+              <td> No </td>
+              <td> <a href="#"> View </a> </td>
+              <td> NA </td>
+              <td> <a href="#"> View </a> </td>
+              <td> <a class="waves-effect waves-light modal-trigger btn" href="#view-student-info"> Details </a>
+                <a class="waves-effect waves-light modal-trigger btn" href="#upload-review"> Add Review </a> </td>
+            </tr>
+            <tr>
+              <td>830000049</td>
+              <td>Gandhi, Suresh</td>
+              <td>Dr. Hank Walker</td>
+              <td> 4 </td>
+              <td> Fall 2019 </td>
+              <td> Fail </td>
+              <td> Yes </td>
+              <td> <a href="#"> View </a> </td>
+              <td> <a href="#"> View </a> </td>
+              <td> <a href="#"> View </a> </td>
+              <td> <a class="waves-effect waves-light btn" href="#"> Details </a> <a class="waves-effect waves-light btn" href="#"> Add Review </a> </td>
+            </tr>
+          </tbody>
+        </table-->
+        
+        <div id="myGrid" style="margin-left: 0.5%; margin-top: 10px; width: 99%; height:450px;"></div>
+
+        <div class="fixed-action-btn">
+        <a class="btn-floating btn-large tamu-navbar modal-trigger" href="#create-review-year">
+          <i class="large material-icons">mode_edit</i>
+        </a>
+      </div>
+
+
+      <!--JavaScript at end of body for optimized loading-->
+      <script src="https://mleibman.github.io/SlickGrid/lib/jquery-1.7.min.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/lib/jquery.event.drag-2.2.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/slick.core.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/slick.grid.js"></script>
+      <script src="https://mleibman.github.io/SlickGrid/plugins/slick.autotooltips.js"></script>
+      
+      <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script>
+      var d = new Date();
+      for(y = d.getFullYear(); y > 1850; y--) {
+              var optn = document.createElement("OPTION");
+              optn.text = y;
+              optn.value = y;
+
+              if (y == d.getFullYear()) {
+                  optn.selected = true;
+              }
+              document.getElementById('year').options.add(optn);
+      }
+      </script>
+      <?!= include("js_app") ?>
+      <?!= include("advisor_review_js") ?>
+    </body>
+  </html>
