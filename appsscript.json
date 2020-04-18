@@ -1,10 +1,15 @@
 {
   "timeZone": "America/Mexico_City",
   "dependencies": {
+    "libraries": [{
+      "userSymbol": "ArrayLib",
+      "libraryId": "1r9wNWbta3ebuYL4ENAdIp4UYKmyNiWf1AqsXYzfXduRHhTZEeTxS9MhZ",
+      "version": "13"
+    }]
   },
   "webapp": {
-    "access": "DOMAIN",
-    "executeAs": "USER_ACCESSING"
+    "access": "MYSELF",
+    "executeAs": "USER_DEPLOYING"
   },
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8"

@@ -1,13 +1,22 @@
 function doGet(e){
-  Logger.log(e);
-  Logger.log(ScriptApp.getService().getUrl());
-  if (!e.parameter.page){
-    return HtmlService.createTemplateFromFile("login").evaluate();
-  }
-  else{
-    Logger.log(e.parameter['page']);
-    return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
-  }
+
+    Logger.log(ScriptApp.getService().getUrl());
+
+    if (!e.parameter.page){
+      var student_records = getAllStudentRecords();
+      var tmp = HtmlService.createTemplateFromFile("review_monitor");
+      tmp.records = student_records;
+      Logger.log("records -------" + student_records[0][1]);
+      return tmp.evaluate();
+    }
+    else if(e.parameters.page == "student_details"){
+      var uin = e.parameters.uin;
+      var filtered_student_record = getStudentInfo(uin);
+      var tmp = HtmlService.createTemplateFromFile("student_details");
+      tmp.record = filtered_student_record[0];
+      return tmp.evaluate(); 
+    }
+    
 }
 
 

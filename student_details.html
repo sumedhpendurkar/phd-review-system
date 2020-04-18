@@ -24,18 +24,19 @@
               <div class="row">
                 <div class="input-field col s3">
                   <input id="ln" type="text" disabled>
-                  <label for="ln">Last Name</label>
+                  <label for="ln"><?= record[3] ?></label>
                 </div>
                 <div class="input-field col s3">
                   <input id="fn" type="text" class="validate"  disabled>
-                  <label for="fn">First Name</label>
+                  <label for="fn"><?= record[2] ?></label>
                 </div>
                 <div class="input-field col s2">
                   <input id="uin_" type="text" class="validate"  disabled>
-                  <label for="uin_">UIN</label>
+                  <label for="uin_"><?= record[4] ?></label>
                 </div>
                 <div class="input-field col s4">
-                  <input id="email" type="text" class="validate" value="sumedhpendurkar@tamu.edu" disabled>
+                  <input id="email" type="text" class="validate" value="<?= record[5] ?>" disabled>
+                  
                   <label for="email">Email</label>
                 </div>
               </div>
@@ -129,5 +130,4 @@
     
   </body>
 </html>
-
-
+</html>
