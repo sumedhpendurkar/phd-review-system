@@ -51,7 +51,7 @@ function userClickedLogin(userInfo){
 }
 
 function search(sheetName, searchTerm){//usage: search('Student', 'a.kunder@tamu.edu') or search('Faculty', 'xyz@tamu.edu')
-  var ss = SpreadsheetApp.openByUrl(url);
+  var ss = SpreadsheetApp.openByUrl(account_sheet_url);
   var ws = ss.getSheetByName(sheetName);
   var data = ws.getRange(1, 1, ws.getLastRow(), 1).getValues();
   var nameList = data.map(function (r){return r[0];});
