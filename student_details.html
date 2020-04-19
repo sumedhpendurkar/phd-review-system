@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
+      <!--Let browser know website is optimized for mobile-->
+      <!--link rel="stylesheet" href="css/app.css"-->
+      
+      <?!= include('css_app'); ?>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    
+    <div id="view-student-info" style = "margin-left: 10px;">
+          <div >
+            <h4>Student Information</h4>
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s3">
+                  <input id="ln" type="text" disabled>
+                  <label for="ln">Last Name</label>
+                </div>
+                <div class="input-field col s3">
+                  <input id="fn" type="text" class="validate"  disabled>
+                  <label for="fn">First Name</label>
+                </div>
+                <div class="input-field col s2">
+                  <input id="uin_" type="text" class="validate"  disabled>
+                  <label for="uin_">UIN</label>
+                </div>
+                <div class="input-field col s4">
+                  <input id="email" type="text" class="validate" value="sumedhpendurkar@tamu.edu" disabled>
+                  <label for="email">Email</label>
+                </div>
+              </div>
+              <div class='row'>
+                <div class="input-field col s3">
+                  <select id = "start-semester" name="start-semester"  disabled>
+                      <option value="" disabled selected>Choose your option</option>
+                  </select>
+                  <label for="uin"> Start Semester </label>
+                </div>
+                <div class="input-field col s2 ">
+                  <select id="qual" class="validate"  disabled>
+                    <option value="pass" selected>Pass</option>
+                    <option value="fail" selected>Fail</option>
+                  </select>
+                  <label for="qual_exam">Qual Exam</label>
+                </div>
+                <div class="input-field col s2">
+                  <select id="attempts" class="validate"  disabled>
+                    <option value="1" selected>1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3" selected>3</option>
+                  </select>
+                  <label for="attempts">Attempts completed</label>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="input-field col s3">
+                  <select id="advisor" class="validate" disabled>
+                    <option value="null" disabled selected>choose advisor</option>
+                  </select>
+                  <label for="advisor">Advisor</label>
+                </div>
+                <div class="input-field col s3">
+                  <select id="co-advisor" class="validate" disabled>
+                    <option value="null" disabled selected>Choose co-advisor</option>
+                    <option value="none">no co-advisor</option>
+                  </select>
+                  <label for="advisor">Co-Advisor</label>
+                </div>
+                <div class="input-field col s2">
+                  <input id="rating" type="text" class="validate"  disabled>
+                  <label for="rating">Rating</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s2">
+                  <select id="degree-plan" class="validate" disabled>
+                    <option value="yes" selected>Yes</option>
+                    <option value="no" selected>No</option>
+                  </select>
+                  <label for="dpf">Degree Plan Filed?</label>
+                </div>
+                <div class="input-field col s2">
+                  <input id="prelim-date" type="text" class="datepicker"  disabled>
+                  <label for="prelim-date">Prelim Date</label>
+                </div>
+                <div class="input-field col s2" >
+                <input type="text" class="datepicker" id="proposal-date" disabled>
+                  <label for="proposal-date">Proposal Date</label>
+                </div>
+                <div class="input-field col s2" disabled>
+                  <input type="text" class="datepicker" id="defense-date" disabled>
+                  <label for="defense-date">Final Defense Date</label>
+                </div>
+              </div>
+
+            <div class="row">
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View CV
+              </button>
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View Student Report
+              </button>
+              <button class="btn waves-effect waves-light" type="submit" name="action"> View Improvement Plan
+              </button>
+            </div>
+            </form>
+          </div>
+          <div>
+            <a href="#!">Okay</a>
+          </div>
+        </div>
+    
+    
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      
+      <?!= include("js_app") ?>
+    
+  </body>
+</html>
+
+
