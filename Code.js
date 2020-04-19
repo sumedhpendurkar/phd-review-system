@@ -4,20 +4,17 @@ var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4B
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
 
 
-function doGet(){
+function doGet(e){
   //Logger.log(e);
-  Logger.log(ScriptApp.getService().getUrl());
-  var student_records = getAllStudentRecords();
-  //if (!e.parameter.page){
-    var tmp = HtmlService.createTemplateFromFile("review_monitor");
-    tmp.records = student_records;
-    Logger.log("records -------" + student_records[0][1]);
-    return tmp.evaluate();
-  /*}
+//  Logger.log(ScriptApp.getService().getUrl());
+//  var student_records = getAllStudentRecords();
+  if (!e.parameter.page){
+    return HtmlService.createTemplateFromFile("index").evaluate();
+  }
   else{
-    Logger.log(e.parameter['page']);
+//    Logger.log(e.parameter['page']);
     return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
-  }*/
+  }
 }
 
 

@@ -2,6 +2,7 @@
   <!DOCTYPE html>
   <html>
     <head>
+      <base target="_top">
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -18,9 +19,9 @@
           <div class="nav-wrapper tamu-navbar">
             <a href="#" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="student_info.html">Student Information</a></li>
+              <li><a href="<?= getScriptUrl();?>?page=student_info.html">Student Information</a></li>
               <li class="active"><a href="#">Reviews</a></li>
-              <li><a href="index.html">Logout</a></li>
+              <li><a href="<?= getScriptUrl();?>?page=index.html">Logout</a></li>
             </ul>
           </div>
         </nav>

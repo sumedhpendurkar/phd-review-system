@@ -1,6 +1,7 @@
   <!DOCTYPE html>
   <html>
     <head>
+      <base target="_top">
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -25,7 +26,7 @@
               <li class="active"><a href="#">Student Information</a></li>
               <script> console.log("hello world"+<?= getScriptUrl(); ?>)</script>
               <li><a href="<?= getScriptUrl();?>?page=student_review.html">Reviews</a></li>
-              <li><a href="index.html">Logout</a></li>
+              <li><a href="<?= getScriptUrl();?>?page=index.html">Logout</a></li>
             </ul>
           </div>
         </nav>
