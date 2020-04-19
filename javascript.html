@@ -1,50 +1,139 @@
 <script>
   function resetProfileFields() {  
-     document.getElementById("fname").value = "";
-     document.getElementById("lname").value = "";
-     document.getElementById("email").value = "";
-     document.getElementById("year").value = "--Select--";
-     document.getElementById("cv").value = "";
+//     var current_date = new Date();
+//     var current_year = current_date.getFullYear();
+//     
+//     var year = 2000;
+//     var till = current_year;
+//     var options = "";
+//     for(var y=year; y<=till; y++){
+//     options += "<option>"+ y +"</option>";
+//     }
      
-     var current_date = new Date();
-     var current_year = current_date.getFullYear();
+//   
+//     document.getElementById("advisor").options.add(options);
+     google.script.run.withSuccessHandler(onSuccess).getProfileInformation();
+     M.updateTextFields();
      
-     var year = 2000;
-     var till = current_year;
-     var options = "";
-     for(var y=year; y<=till; y++){
-     options += "<option>"+ y +"</option>";
-     }
-     
-     document.getElementById("year").innerHTML = options;
   }
   
+  function updateClicked(){     
+    var userInfo = {};
+    userInfo.firstname = document.getElementById("fn").value;
+    userInfo.lastname = document.getElementById("ln").value;
+    userInfo.UIN = document.getElementById("uin_").value;
+    userInfo.email = document.getElementById("email").value;
+    userInfo.startsem = document.getElementById("start-semester").value;
+    userInfo.qualstatus = document.getElementById("qual").value;
+    userInfo.numattempts = document.getElementById("attempts").value;
+    userInfo.advisor = document.getElementById("advisor").value;
+    userInfo.coadvisor = document.getElementById("co-advisor").value;
+    userInfo.degreeplanstatus = document.getElementById("degree-plan").value;
+    userInfo.prelime_date  =  document.getElementById("prelim-date").value;
+    userInfo.proposal_date  =  document.getElementById("proposal-date").value;
+    userInfo.defense_date = document.getElementById("defense-date").value;
   
-  function submitProfile(){     
-     var userInfo = {};
-     userInfo.firstname = document.getElementById("fname").value;
-     userInfo.lastname = document.getElementById("lname").value;
-     userInfo.email = document.getElementById("email").value;
-     userInfo.reviewyear = document.getElementById("year").value;
-     google.script.run.submitProfile(userInfo);
-     uploadFile(userInfo);  
-     resetProfileFields();
+    google.script.run.submitProfile(userInfo);
+  
+    var cv = document.getElementById("cv").files[0];
+    console.log(cv);
+    if (cv){
+      uploadFile(userInfo,cv,"cv");
+    }
+//    setTimeout(resetProfileFields, 1000);
+//    resetProfileFields();
+    alert("Data Updated");
   }
   
-  function uploadFile(userInfo) {
+  function uploadFile(userInfo,f,file_type) {
     var file, reader = new FileReader();
     reader.onloadend = function(e) {
       google.script.run
       .uploadFileToDrive(
         e.target.result, file.name,
-        userInfo.email
+        userInfo.email,file_type
       );
     };
     
-    file = document.getElementById("cv").files[0];
+    file = f;
     if(file){  
       reader.readAsDataURL(file);
     } 
   }
+  
+  function onSuccess(userInfo) {
+    
+    console.log(userInfo);
+    document.getElementById("fn").value = userInfo.firstname;
+    document.getElementById("ln").value = userInfo.lastname;
+    document.getElementById("uin_").value = userInfo.UIN;
+    document.getElementById("email").value = userInfo.email;
+    document.getElementById("start-semester").value = userInfo.startsem;
+    document.getElementById("qual").value = userInfo.qualstatus;
+    document.getElementById("attempts").value = userInfo.numattempts;
+    document.getElementById("advisor").value = userInfo.advisor; 
+//    $('#advisor').val('E'); 
+    document.getElementById("num2").selected = "selected";
+    document.getElementById("co-advisor").value = userInfo.coadvisor;
+    document.getElementById("degree-plan").value = userInfo.degreeplanstatus;
+    document.getElementById("prelim-date").value = userInfo.prelime_date;
+    document.getElementById("proposal-date").value = userInfo.proposal_date;
+    document.getElementById("defense-date").value = userInfo.defense_date;
+    
+
+  }
+  
+  // below from views/js/app.js
+  
+  
+  function load_monitor(){
+  
+  M.textareaAutoResize($('#textarea1'));
+  
+  }
+  
+  function EditReview(){
+  console.log("here");
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems, {});
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems, {dismissible: false, startingTop:'1%', endingTop:'0%'});
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.datepicker');
+  var instances = M.Datepicker.init(elems);
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
+  });
+  // Or with jQuery
+  
+  $(document).ready(function(){
+  $('.modal').modal();
+  });
+  
+  
+  // Or with jQuery
+  
+  $(document).ready(function(){
+  $('select').formSelect();
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  var instances = M.FloatingActionButton.init(elems, {
+  direction: 'left',
+  hoverEnabled: false
+  });
+  });
 
 </script>

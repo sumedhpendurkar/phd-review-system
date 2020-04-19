@@ -2,6 +2,7 @@
   <!DOCTYPE html>
   <html>
     <head>
+      <base target="_top">
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -33,7 +34,7 @@
                 </div>
                 <div class="card-action">
                   <a href="student_info.html">Login as Student</a>
-                  <a href="review_monitor.html">Login as Faculty</a>
+                  <a href="<?= getScriptUrl();?>?page=review_monitor.html">Login as Faculty</a>
                 </div>
               </div>
             </div>
