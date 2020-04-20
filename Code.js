@@ -283,7 +283,7 @@ function uploadFileToDrive(content, filename, email,file_type){
 function update_file_url(email,file_url){
 //  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("data");
+  var ws = ss.getSheetByName("Sheet1");
   var dataRange = ws.getDataRange();
   var values = dataRange.getValues();
   
