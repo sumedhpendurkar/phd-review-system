@@ -16,13 +16,13 @@ function doGet(e){
   else{
     cls = userClickedLogin(userInfo);
     }
-
+  
   Route.path("student_view", loadStudentView);
   Route.path("faculty_view", loadFacultyView);
   Route.path("student_review", loadStudentReview);
   Route.path("profile", loadProfile);
   Route.path("index", loadHome);
-
+  
   Logger.log(e.parameters.v);
   if(Route[cls]){
     return Route[cls]();
@@ -40,7 +40,7 @@ function doGet(e){
   /*}
   else{
     Logger.log(e.parameter['page']);
-    return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
+    return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
   }*/
 }
 
@@ -61,7 +61,7 @@ function search(sheetName, searchTerm){//usage: search('Student', 'a.kunder@tamu
   var ws = ss.getSheetByName(sheetName);
   var data = ws.getRange(1, 1, ws.getLastRow(), 1).getValues();
   var nameList = data.map(function (r){return r[0];});
-
+  
   var index = nameList.indexOf(searchTerm);
   Logger.log([ss, sheetName, searchTerm, index]);
   if(index>=0){
@@ -97,7 +97,7 @@ function loadStudentView() {
 }
 
 function loadFacultyView() {
-
+  
   return render("review_monitor");
 }
 
@@ -107,10 +107,10 @@ function loadHome(){
 
 function submitProfile(userInfo){
   Logger.log("Submit was clicked");
-
+  
   var ss = SpreadsheetApp.openByUrl(url);
   var ws = ss.getSheetByName("data");
-
+  
   ws.appendRow([userInfo.firstname,userInfo.lastname,userInfo.email,userInfo.reviewyear]);
 }
 
@@ -136,23 +136,6 @@ function uploadFileToDrive(content, filename, email){
   } catch (f) {
     return f.toString();
   }
-
-}
-
-function update_file_url(email,file_url){
-//  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
-  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("Sheet1");
-  var dataRange = ws.getDataRange();
-  var values = dataRange.getValues();
-
-  for (var i = 0; i < values.length; i++) {
-    if (values[i][3] == email) {
-      ws.getRange(i+1,13+1).setValue(file_url);
-    }
-  }
-
-  Logger.log("file url Updated")
 }
 
 
@@ -162,10 +145,10 @@ function loginClicked(){
 
 //
 //function getFolders(parent_folder,folder_name){
-//  var folders = parent_folder.getFolders();
+//  var folders = parent_folder.getFolders();     
 //  while (folders.hasNext()) {
 //    var folder = folders.next();
-//    if(folder_name == folder.getName()) {
+//    if(folder_name == folder.getName()) {         
 //      return folder;
 //    }
 //  }
