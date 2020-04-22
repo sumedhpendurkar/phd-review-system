@@ -1,6 +1,9 @@
 var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
-var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
-var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
+
+var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
+var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
+
+
 var Route = {};
 Route.path = function(param, callBack){
   Route[param] = callBack;
@@ -120,20 +123,23 @@ function getProfileInformation() {
   var userInfo = {};
   
   userInfo.email = Session.getActiveUser().getEmail();
-//  userInfo.firstname = "";
-//  userInfo.lastname = "";
-//  userInfo.UIN = "";
-//  userInfo.startsem = "Fall";
-//  userInfo.qualstatus = "Pass";
-//  userInfo.numattempts = "0";
-//  userInfo.advisor = "Not Selected";
-//  userInfo.coadvisor = "No Co-Advisor";
-//  userInfo.degreeplanstauts = "Yes";
-  
+  userInfo.firstname = "";
+  userInfo.lastname = "";
+  userInfo.UIN = "";
+  userInfo.startsem = "";
+  userInfo.qualstatus = "";
+  userInfo.numattempts = "";
+  userInfo.advisor = "";
+  userInfo.coadvisor = "";
+  userInfo.degreeplanstauts = "";
+  userInfo.prelime_date = "";
+  userInfo.proposal_date = "";
+  userInfo.defense_date = "";
+  userInfo.cv_url = "";
   
 //  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("Sheet1");
+  var ws = ss.getSheetByName("data");
   var dataRange = ws.getDataRange();
   var values = dataRange.getValues();
   
@@ -161,17 +167,19 @@ function getProfileInformation() {
       if(values[i][12]!=""){
       userInfo.defense_date = values[i][12].toISOString().slice(0,10);
       }
+      
+      userInfo.cv_url = values[i][13];
+      
       break;
     }
   }
   return userInfo;
 }
-
 //////////////////////////////////////////////////////////////////////// Updating Student Informaiton //////////////////////////////////////////////////////
 
 function submitProfile(userInfo){
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("Sheet1");
+  var ws = ss.getSheetByName("data");
   var dataRange = ws.getDataRange();
   var values = dataRange.getValues();
   var userExists = false;
@@ -186,7 +194,7 @@ function submitProfile(userInfo){
         ws.getRange(i+1,1+1).setValue(userInfo.lastname);
       }
       if(userInfo.UIN!=values[i][2]){
-        ws.getRange(i+1,1+1).setValue(userInfo.UIN);
+        ws.getRange(i+1,2+1).setValue(userInfo.UIN);
       }
       if(userInfo.startsem!=values[i][4]){
         ws.getRange(i+1,4+1).setValue(userInfo.startsem);
@@ -205,8 +213,8 @@ function submitProfile(userInfo){
         ws.getRange(i+1,8+1).setValue(userInfo.coadvisor);
       }
       
-      if(userInfo.degreeplanstauts!=values[i][9]){
-        ws.getRange(i+1,9+1).setValue(userInfo.degreeplanstauts);
+      if(userInfo.degreeplanstatus!=values[i][9]){
+        ws.getRange(i+1,9+1).setValue(userInfo.degreeplanstatus);
       }
       
       if(userInfo.prelime_date!=values[i][10]){
@@ -225,10 +233,11 @@ function submitProfile(userInfo){
   if (!userExists){ 
     ws.appendRow([userInfo.firstname,userInfo.lastname,userInfo.UIN,userInfo.email,
                   userInfo.startsem,userInfo.qualstatus,userInfo.numattempts,userInfo.advisor,
-                  userInfo.coadvisor,userInfo.degreeplanstauts,userInfo.prelime_date,userInfo.proposal_date,
+                  userInfo.coadvisor,userInfo.degreeplanstatus,userInfo.prelime_date,userInfo.proposal_date,
                   userInfo.defense_date
                  ]);
-  }  
+  }
+  
 }
 
 
@@ -247,7 +256,6 @@ function folderExistsIn(parent_folder,folder_name){
 
 function uploadFileToDrive(content, filename, email,file_type){
   try {
-//    var email = userInfo.email;
     var dropbox = "phd_review_dev";
     var folder, folders = DriveApp.getFoldersByName(dropbox);
 
@@ -284,18 +292,35 @@ function uploadFileToDrive(content, filename, email,file_type){
           bytes = Utilities.base64Decode(content.substr(content.indexOf('base64,')+7)),
           blob = Utilities.newBlob(bytes, contentType, new_file_name);
       
-      s_folder.createFile(blob);
-      var file_url;
-      var files = s_folder.getFilesByName(new_file_name);
-      while (files.hasNext()) { 
-        var file = files.next();
-        if(file.getName()==new_file_name){
-            file_url = file.getUrl();
-        }
-      }
+           
+      fl = s_folder.createFile(blob);
+      var file_url = fl.getUrl();
+      update_file_url(email,file_url);
+      
+      fileId = fl.getId();
+      Drive.Permissions.insert(
+        {
+          'role': 'reader',
+          'type': 'user',
+          'value': email
+        },
+        fileId,
+        {
+          'sendNotificationEmails': 'false'
+        });
+      
+//      s_folder.createFile(blob);
+//      var file_url;
+//      var files = s_folder.getFilesByName(new_file_name);
+//      while (files.hasNext()) { 
+//        var file = files.next();
+//        if(file.getName()==new_file_name){
+//            file_url = file.getUrl();
+//        }
+//      }
     }
     
-    update_file_url(email,file_url);
+    
     Logger.log("Uploading is done");
     
   } catch (f) {
@@ -325,17 +350,14 @@ function update_file_url(email,file_url){
 function get_advisor_list(){
   
   var ss = SpreadsheetApp.openByUrl(faculty_data_sheet_url);
-  var ws = ss.getSheetByName("Faculty")
-  var list = ws.getRange(1,1, ws.getRange("A1").getDataRegion().getLastRow(),1).getValues();
+  var ws = ss.getSheetByName("f_data");
+  var list = ws.getRange(2,1, ws.getRange("A2").getDataRegion().getLastRow(),1).getValues();
   
   var advisorlist = list.map(function(r){return '<option value="'+r[0]+'">'+r[0]+'</option>';}).join('');
   Logger.log(advisorlist)
   
   return advisorlist;
 }
-
-
-
 
 ////////////////////////////////////////////////////////// Other Stuff ///////////////////////////////////////////////////////////////////////////////
 

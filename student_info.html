@@ -10,11 +10,7 @@
       <?!= include('css'); ?>
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <script>
-        window.onload = function(e)  {
-          resetProfileFields();
-        };
-      </script>
+ 
     </head>
 
     <body>
@@ -26,7 +22,7 @@
               <li class="active"><a href="#">Student Information</a></li>
               <script> console.log("hello world"+<?= getScriptUrl(); ?>)</script>
               <li><a href="<?= getScriptUrl();?>?page=student_review.html">Reviews</a></li>
-              <li><a href="<?= getScriptUrl();?>?page=index.html">Logout</a></li>
+              <li><a href="index.html">Logout</a></li>
             </ul>
           </div>
         </nav>
@@ -36,15 +32,15 @@
           <div class="row">
             <div class="input-field col s3">
               <input id="fn" type="text" class="validate">
-              <label for="fn" class = ".active">First Name</label>
+              <label for="fn" >First Name</label>
             </div>
             <div class="input-field col s3">
               <input id="ln" type="text">
-              <label for="ln">Last Name</label>
+              <label for="ln" >Last Name</label>
             </div>
             <div class="input-field col s2">
               <input id="uin_" type="text" class="validate">
-              <label for="uin_">UIN</label>
+              <label for="uin_" >UIN</label>
             </div>
             <div class="input-field col s4">
               <input id="email" type="text" class="validate" disabled>
@@ -56,21 +52,25 @@
               <select id = "start-semester" name="start-semester">
                   <option value="" disabled selected>Choose your option</option>
                   <option value="Fall" >Fall</option>
+                  <option value="Fall" >Spring</option>
+                  <option value="Fall" >Summer</option>
               </select>
               <label for="start-semester"> Start Semester </label>
             </div>
-            <div class="input-field col s1">
+            <div class="input-field col s3">
               <select id="qual" class="validate">
+              <option value="" disabled selected>Choose your option</option>
                 <option value="pass" >Pass</option>
                 <option value="fail" >Fail</option>
               </select>
               <label for="qual">Qual Exam</label>
             </div>
-            <div class="input-field col s2">
-              <select id="attempts">
+            <div class="input-field col s3">
+              <select id="attempts" class="validate">
+              <option value="" disabled selected>Choose your option</option>
                 <option value="0" >0</option>
                 <option value="1" >1</option>
-                <option value="2" id ="num2">2</option>
+                <option value="2" >2</option>
                 <option value="3" >3</option>
               </select>
               <label for="attempts">Attempts completed</label>
@@ -81,7 +81,7 @@
           <div class="row">
             <div class="input-field col s3">
               <select id="advisor" class="validate">
-              <!--<option value="null" disabled selected>choose advisor</option>-->
+              <option value="" disabled selected>Choose Advisor</option>
               <?!= get_advisor_list(); ?>
               </select>
               
@@ -89,7 +89,7 @@
             </div>
             <div class="input-field col s3">
               <select id="co-advisor" class="validate">
-                <option value="null" disabled selected>Choose co-advisor</option>
+                <option value="" disabled selected>Choose Co-Advisor</option>
                 <option value="none">no co-advisor</option>
                 <?!= get_advisor_list(); ?>
               </select>
@@ -100,7 +100,8 @@
           <div class="row">
             <div class="input-field col s2">
               <select id="degree-plan" class="validate">
-                <option value="yes" selected>Yes</option>
+              <option value="" disabled selected>Choose your option</option>
+                <option value="yes" >Yes</option>
                 <option value="no" >No</option>
               </select>
               <label for="dpf">Degree Plan Filed?</label>
@@ -120,8 +121,8 @@
           </div>
 
           <div class="row">
-            <button class="btn waves-effect waves-light" type="submit" name="action"> View CV
-            </button>
+            <a id ="cv_url"><button class="btn waves-effect waves-light" type="submit" name="action" onlcick = "openPDF()">  View CV
+            </button></a>
           </div>
 
         <div class="row">
@@ -152,5 +153,10 @@
         <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <?!= include('javascript'); ?>
+        <script>
+        window.onload = function(){
+           resetProfileFields();
+          }
+        </script>
         
         </body>
