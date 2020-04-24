@@ -9,21 +9,30 @@ Route.path = function(param, callBack){
   Route[param] = callBack;
 }
 
-/*
+
 function doGet(e){
   //Logger.log(e);
   var userInfo = {};
   userInfo.email = Session.getActiveUser().getEmail();
   Logger.log(userInfo.email); //actions can be taken based on these
-  var cls = userClickedLogin(userInfo);
+  var cls = null;
+  if(e.parameters.v){
+    cls = e.parameters.v; 
+  }
+  else {
+    cls = userClickedLogin(userInfo); 
+  }
   
-  Route.path("student_login", loadStudentView);
-  Route.path("faculty_login", loadFacultyView);
+  Route.path("student_view", loadStudentView);
+  Route.path("faculty_view", loadFacultyView);
+  Route.path("student_review", loadStudentReview);
+  Route.path("student_details", loadStudentDetails);
+  Route.path("profile", loadProfile);
   Route.path("index", loadHome);
   
   Logger.log(e.parameters.v);
   if(Route[cls]){
-    return Route[cls]();
+    return Route[cls](e);
   }else{
     //return HtmlService.createHtmlOutput("<h1>Page Not Found!</h1>");
     return loadHome();
@@ -39,38 +48,37 @@ function doGet(e){
   else{
 //    Logger.log(e.parameter['page']);
     return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
-  }*
+  }*/
 }
 
-*/
-
-function doGet(e){
-
-    Logger.log(ScriptApp.getService().getUrl());
-
-    if (!e.parameter.page){
-      var student_records = getAllStudentRecords();
-      var tmp = HtmlService.createTemplateFromFile("review_monitor");
-      tmp.records = student_records;
-      Logger.log("records -------" + student_records[0][1]);
-      return tmp.evaluate();
-    }
-    else if(e.parameters.page == "student_details"){
-      var uin = e.parameters.uin;
-      var filtered_student_record = getStudentInfo(uin);
-      var tmp = HtmlService.createTemplateFromFile("student_details");
-      tmp.record = filtered_student_record[0];
-      return tmp.evaluate(); 
-    }
-    
-}
+//function doGet(e){
+//
+//    Logger.log(ScriptApp.getService().getUrl());
+//
+//    if (!e.parameter.page){
+//      var student_records = getAllStudentRecords();
+//      var tmp = HtmlService.createTemplateFromFile("review_monitor");
+//      tmp.records = student_records;
+//      Logger.log("records -------" + student_records[0][1]);
+//      return tmp.evaluate();
+//    }
+//    else if(e.parameters.page == "student_details"){
+//      Logger.log('student_details')
+//      var uin = e.parameters.uin;
+//      var filtered_student_record = getStudentInfo(uin);
+//      var tmp = HtmlService.createTemplateFromFile("student_details");
+//      tmp.record = filtered_student_record[0];
+//      return tmp.evaluate(); 
+//    }
+//    
+//}
 
 function userClickedLogin(userInfo){
   if(search("Student", userInfo.email)){
-    return 'student_login';
+    return 'student_view';
   }
   else if(search("Faculty", userInfo.email)){
-    return 'faculty_login';
+    return 'faculty_view';
   }
   else{
     return 'index';
@@ -105,17 +113,36 @@ function render(file, argsObject){
   return tmp.evaluate();
 }
 
+function loadProfile(){
+  return render("profile");
+}
+
+function loadStudentReview(){
+  return render("student_review");
+}
+
+function loadStudentDetails(e){
+  var uin = e.parameters.uin;
+  var args = {};
+  args.record = getStudentInfo(uin)[0];
+  return render("student_details", args);
+}
+
 function loadStudentView() {
   return render("student_info");
 }
 
 function loadFacultyView() {
-  
   return render("review_monitor");
 }
 
 function loadHome(){
   return render("index");
+}
+
+function clickedLogout(html_text){
+//  ScriptApp.invalidateAuth();
+  Logger.log(html_text, getScriptUrl(), Session.getActiveUser().getEmail());
 }
 
 function getProfileInformation() {
