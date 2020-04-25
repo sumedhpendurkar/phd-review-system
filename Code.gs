@@ -59,6 +59,16 @@ function doGet(e){
       tmp.record = filtered_student_record[0];
       return tmp.evaluate(); 
     }
+  
+  else if(e.parameters.page == "add_review"){
+      var uin = e.parameters.uin;
+      //var filtered_student_record = getStudentInfo(uin);
+      var tmp = HtmlService.createTemplateFromFile("add_student_review");
+      tmp.uinValue = uin;
+      tmp.firstName = "Anna";
+      tmp.lastName = "Shekhawat";
+      return tmp.evaluate(); 
+    }
     
 }
 

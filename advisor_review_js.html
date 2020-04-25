@@ -18,7 +18,7 @@ var columns = [
     name: 'UIN', 
     field: 'uin', 
     sortable: true, 
-    width: 120 
+    width: 110 
   },
   {
     id: 'name',
@@ -26,14 +26,14 @@ var columns = [
     field: 'name',
     sortable: true,
     toolTip: 'Really Really Really Long Title',
-    width: 230
+    width: 210
   },
   {
     id: 'advisor',
     name: 'Advisor',
     field: 'advisor',
     sortable: true,
-    width: 230
+    width: 210
   },
   {
     id: 'start_semester',
@@ -86,12 +86,20 @@ var columns = [
     width: 100
   },
   {
+    id: 'all_reviews',
+    name: 'All Reviews',
+    field: 'all_reviews',
+    sortable: false,
+    formatter: linkFormatter,
+    width: 90
+  },
+  {
     id: 'add_review',
     name: 'Add Review',
     field: 'add_review',
     sortable: false,
     formatter: linkFormatter,
-    width: 144  },
+    width: 110  },
 ];
 
 function dayFormatter(row, cell, value, columnDef, dataContext) {
@@ -169,8 +177,9 @@ $(function() {
       d["student_report"] = "NA",
       d["improvement_plan"] = "NA",
       d["cv"] = "NA",
-      d["more_student_details"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbx591EuL5O3rYAJ3SngN0vTbi3wZQRjCj6BwFCbahvj/dev?page=student_details&uin=123456789><u>Details</u></a>",
-      d["add_review"] = "<a href=\"index.html\" style = \" color:blue;\"><u>Add Review</u></a>"
+      d["more_student_details"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbx591EuL5O3rYAJ3SngN0vTbi3wZQRjCj6BwFCbahvj/dev?page=student_details&uin=123456789 style = \" color:blue;\"><u>Details</u></a>",
+      d["all_reviews"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbx591EuL5O3rYAJ3SngN0vTbi3wZQRjCj6BwFCbahvj/dev?page=student_details&uin=123456789 style = \" color:blue;\"><u>Details</u></a>",
+      d["add_review"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbx591EuL5O3rYAJ3SngN0vTbi3wZQRjCj6BwFCbahvj/dev?page=add_review&uin=123456789 style = \" color:blue;\"><u>Add Review</u></a>"
       
       // data can also be populated this way:
       /*data[i] = {
@@ -229,6 +238,7 @@ $(function() {
 document.getElementById("searchBtn").addEventListener("click", searchBtnClicked);
 
   function searchBtnClicked(){
+  console.log("search button clicked");
     var userInfo = {}
     
     var firstName = document.getElementById("first_name").value;
@@ -251,8 +261,6 @@ document.getElementById("searchBtn").addEventListener("click", searchBtnClicked)
   }
 
 // ---------- search end ------------
-
-
 
 
 
