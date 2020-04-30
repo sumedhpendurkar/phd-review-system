@@ -27,6 +27,7 @@ function doGet(e){
   Route.path("faculty_view", loadFacultyView);
   Route.path("student_review", loadStudentReview);
   Route.path("student_details", loadStudentDetails);
+  Route.path("add_review", loadAddReview);
   Route.path("profile", loadProfile);
   Route.path("index", loadHome);
   
@@ -50,28 +51,6 @@ function doGet(e){
     return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
   }*/
 }
-
-//function doGet(e){
-//
-//    Logger.log(ScriptApp.getService().getUrl());
-//
-//    if (!e.parameter.page){
-//      var student_records = getAllStudentRecords();
-//      var tmp = HtmlService.createTemplateFromFile("review_monitor");
-//      tmp.records = student_records;
-//      Logger.log("records -------" + student_records[0][1]);
-//      return tmp.evaluate();
-//    }
-//    else if(e.parameters.page == "student_details"){
-//      Logger.log('student_details')
-//      var uin = e.parameters.uin;
-//      var filtered_student_record = getStudentInfo(uin);
-//      var tmp = HtmlService.createTemplateFromFile("student_details");
-//      tmp.record = filtered_student_record[0];
-//      return tmp.evaluate(); 
-//    }
-//    
-//}
 
 function userClickedLogin(userInfo){
   if(search("Student", userInfo.email)){
@@ -126,6 +105,14 @@ function loadStudentDetails(e){
   var args = {};
   args.record = getStudentInfo(uin)[0];
   return render("student_details", args);
+}
+
+function loadAddReview(e){
+  var args = {};
+  args.uinValue = e.parameters.uin;
+  args.firstName = "Anna";
+  args.lastName = "Shekhawat";
+  return render("add_student_review", args);
 }
 
 function loadStudentView() {

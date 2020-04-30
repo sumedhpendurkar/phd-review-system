@@ -16,6 +16,18 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
+  
+  <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper tamu-navbar">
+            <a href="#" class="brand-logo">Ph.D. Review System</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li class="active"><a href="<?= getScriptUrl();?>?v=faculty_view">Review Monitor</a></li>
+              <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     
     <div id="view-student-info" style = "margin-left: 10px;">
           <div >
@@ -117,7 +129,7 @@
             </form>
           </div>
           <div>
-            <a href="#!">Okay</a>
+            <a href="<?= getScriptUrl();?>?v=review_monitor">Okay</a>
           </div>
         </div>
     
