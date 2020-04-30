@@ -134,6 +134,6 @@ function getStudentInfo(uin){
   
   var student_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
   var filtered_student_record = ArrayLib.filterByText(student_records, 4, uin);
-  
+  Logger.log(filtered_student_record)
   return filtered_student_record;
 }
