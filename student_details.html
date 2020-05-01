@@ -54,22 +54,19 @@
               <div class='row'>
                 <div class="input-field col s3">
                   <select id = "start-semester" name="start-semester"  disabled>
-                      <option value="" disabled selected>Choose your option</option>
+                      <option value="" disabled selected><?= record[6] ?></option>
                   </select>
                   <label for="start-semester"> Start Semester </label>
                 </div>
                 <div class="input-field col s2 ">
                   <select id="qual" class="validate"  disabled>
-                    <option value="pass" selected>Pass</option>
-                    <option value="fail" selected>Fail</option>
+                    <option value="" selected><?= record[12] ?></option>
                   </select>
                   <label for="qual_exam">Qual Exam</label>
                 </div>
                 <div class="input-field col s2">
                   <select id="attempts" class="validate"  disabled>
-                    <option value="1" selected>1</option>
-                    <option value="2" selected>2</option>
-                    <option value="3" selected>3</option>
+                    <option value="1" selected><?= record[13] ?></option>
                   </select>
                   <label for="attempts">Attempts completed</label>
                 </div>
@@ -79,13 +76,13 @@
               <div class="row">
                 <div class="input-field col s3">
                   <select id="advisor" class="validate" disabled>
-                    <option value="null" disabled selected>choose advisor</option>
+                    <option value="null" disabled selected><?= record[9] ?></option>
                   </select>
                   <label for="advisor">Advisor</label>
                 </div>
                 <div class="input-field col s3">
                   <select id="co-advisor" class="validate" disabled>
-                    <option value="null" disabled selected>Choose co-advisor</option>
+                    <option value="null" disabled selected><?= record[10] ?></option>
                     <option value="none">no co-advisor</option>
                   </select>
                   <label for="advisor">Co-Advisor</label>
@@ -99,37 +96,33 @@
               <div class="row">
                 <div class="input-field col s2">
                   <select id="degree-plan" class="validate" disabled>
-                    <option value="yes" selected>Yes</option>
-                    <option value="no" selected>No</option>
+                    <option value="" selected><?= record[11] ?></option>
                   </select>
                   <label for="dpf">Degree Plan Filed?</label>
                 </div>
                 <div class="input-field col s2">
-                  <input id="prelim-date" type="text" class="datepicker"  disabled>
+                  <input id="prelim-date" type="text" class="datepicker" value="<?= record[15].toLocaleDateString() ?>" disabled>
                   <label for="prelim-date">Prelim Date</label>
                 </div>
                 <div class="input-field col s2" >
-                <input type="text" class="datepicker" id="proposal-date" disabled>
+                <input type="text" class="datepicker" id="proposal-date" value="<?= record[16].toLocaleDateString() ?>" disabled>
                   <label for="proposal-date">Proposal Date</label>
                 </div>
                 <div class="input-field col s2" disabled>
-                  <input type="text" class="datepicker" id="defense-date" disabled>
+                  <input type="text" class="datepicker" id="defense-date" value="<?= record[17].toLocaleDateString() ?>" disabled>
                   <label for="defense-date">Final Defense Date</label>
                 </div>
               </div>
 
             <div class="row">
-              <button class="btn waves-effect waves-light" type="submit" name="action"> View CV
-              </button>
-              <button class="btn waves-effect waves-light" type="submit" name="action"> View Student Report
-              </button>
-              <button class="btn waves-effect waves-light" type="submit" name="action"> View Improvement Plan
-              </button>
+              <a class="btn waves-effect waves-light" href="<?= record[14] ?>"> View CV </a>
+              <a class="btn waves-effect waves-light"> View Student Report </a>
+              <a class="btn waves-effect waves-light"> View Improvement Plan </a>
             </div>
             </form>
           </div>
           <div>
-            <a href="<?= getScriptUrl();?>?v=review_monitor">Okay</a>
+            <a href="<?= getScriptUrl();?>?v=faculty_view">Okay</a>
           </div>
         </div>
     
