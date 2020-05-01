@@ -171,15 +171,15 @@ function getProfileInformation() {
       userInfo.degreeplanstatus = values[i][9];
       
       if(values[i][10]!=""){
-        userInfo.prelime_date = values[i][10].toISOString().slice(0,10);
+        userInfo.prelime_date = values[i][10].toLocaleDateString();
       }
       
       if(values[i][11]!=""){
-        userInfo.proposal_date = values[i][11].toISOString().slice(0,10);
+        userInfo.proposal_date = values[i][11].toLocaleDateString();
       }
       
       if(values[i][12]!=""){
-      userInfo.defense_date = values[i][12].toISOString().slice(0,10);
+      userInfo.defense_date = values[i][12].toLocaleDateString();
       }
       
       userInfo.cv_url = values[i][13];
