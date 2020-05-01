@@ -28,18 +28,22 @@
       </div>
 
       <div class="container">
+      <form action="javascript:void(0)" onsubmit="updateClicked()">
           <div class="row">
             <div class="input-field col s3">
-              <input id="fn" type="text" class="validate">
+              <input id="fn" type="text" class="validate" required>
               <label for="fn" >First Name</label>
+              <span class="helper-text" data-error="First name cannot be empty" data-success=""></span>
             </div>
             <div class="input-field col s3">
-              <input id="ln" type="text">
+              <input id="ln" type="text" class="validate" required>
               <label for="ln" >Last Name</label>
+              <span class="helper-text" data-error="Last name cannot be empty" data-success=""></span>
             </div>
             <div class="input-field col s2">
-              <input id="uin_" type="text" class="validate">
+              <input id="uin_" type="text" class="validate" pattern="[1-9][0-9]{2}00[0-9]{4}" data-error="Please enter correct UIN">
               <label for="uin_" >UIN</label>
+              <span class="helper-text" data-error="Incorrect UIN" data-success=""></span>
             </div>
             <div class="input-field col s4">
               <input id="email" type="text" class="validate" disabled>
@@ -138,17 +142,15 @@
 
         <div class="row">
           <div class="center">
-            <button class="btn waves-effect waves-light cancel" onclick="resetProfileFields()"> Discard
-            </button>
-            <button class="btn waves-effect waves-light" onclick="updateClicked()"> Update!
+            <a class="btn waves-effect waves-light cancel" onclick="resetProfileFields()"> Discard
+            </a>
+            <button class="btn waves-effect waves-light"> Update!
             </button>
           </div>
         </div>
-
-        <div id="test">
         
-        </div>
-
+       </form>
+      </div>
         <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <?!= include('javascript'); ?>
