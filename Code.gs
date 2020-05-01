@@ -1,6 +1,6 @@
 var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
 
-var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
+var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
 
 
@@ -132,6 +132,10 @@ function clickedLogout(html_text){
   Logger.log(html_text, getScriptUrl(), Session.getActiveUser().getEmail());
 }
 
+function rowValue(values, rowIdx, headerLabel) {
+  return values[rowIdx][values[0].indexOf(headerLabel)];
+}
+
 function getProfileInformation() {
   
   var userInfo = {};
@@ -150,39 +154,39 @@ function getProfileInformation() {
   userInfo.proposal_date = "";
   userInfo.defense_date = "";
   userInfo.cv_url = "";
-  
-//  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
+
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("data");
-  var dataRange = ws.getDataRange();
-  var values = dataRange.getValues();
+  var ws = ss.getSheetByName("Sheet1");
+  var values = ws.getDataRange().getValues();
+  var headers = values[0];
+  Logger.log(rowValue(values, 1, "email"));
   
-  for (var i = 0; i < values.length; i++) {
-    if (values[i][3] == userInfo.email) {
+  for (var i = 1; i < values.length; i++) {
+    if (rowValue(values, i, "email") == userInfo.email) {
       
-      userInfo.firstname = values[i][0];
-      userInfo.lastname = values[i][1];
-      userInfo.UIN = values[i][2];
-      userInfo.startsem = values[i][4];
-      userInfo.qualstatus = values[i][5];
-      userInfo.numattempts = values[i][6];
-      userInfo.advisor = values[i][7];
-      userInfo.coadvisor = values[i][8];
-      userInfo.degreeplanstatus = values[i][9];
+      userInfo.firstname = rowValue(values, i, "first_name");
+      userInfo.lastname = rowValue(values, i, "last_name");
+      userInfo.UIN = rowValue(values, i, "uin");
+      userInfo.startsem = rowValue(values, i, "start_semester");
+      userInfo.qualstatus = rowValue(values, i, "qualifying_exam_pass_fail");
+      userInfo.numattempts = rowValue(values, i, "number_of_qualifying_exam_attempts");
+      userInfo.advisor = rowValue(values, i, "advisor");
+      userInfo.coadvisor = rowValue(values, i, "co-advisor");
+      userInfo.degreeplanstatus = rowValue(values, i, "degree_plan_submitted");
       
       if(values[i][10]!=""){
-        userInfo.prelime_date = values[i][10].toLocaleDateString();
+        userInfo.prelime_date = rowValue(values, i, "prelim_date").toLocaleDateString();
       }
       
       if(values[i][11]!=""){
-        userInfo.proposal_date = values[i][11].toLocaleDateString();
+        userInfo.proposal_date = rowValue(values, i, "proposal_date").toLocaleDateString();
       }
       
       if(values[i][12]!=""){
-      userInfo.defense_date = values[i][12].toLocaleDateString();
+      userInfo.defense_date = rowValue(values, i, "final_defense_date").toLocaleDateString();
       }
       
-      userInfo.cv_url = values[i][13];
+      userInfo.cv_url = rowValue(values, i, "cv_link");
       
       break;
     }
@@ -191,64 +195,44 @@ function getProfileInformation() {
 }
 //////////////////////////////////////////////////////////////////////// Updating Student Informaiton //////////////////////////////////////////////////////
 
+function setRowValue(ws, values, rowIdx, headerLabel, value) {
+  var headers = values[0];
+  ws.getRange(rowIdx+1, headers.indexOf(headerLabel)+1).setValue(value);
+}
+
 function submitProfile(userInfo){
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("data");
-  var dataRange = ws.getDataRange();
-  var values = dataRange.getValues();
+  var ws = ss.getSheetByName("Sheet1");
+  var values = ws.getDataRange().getValues();
   var userExists = false;
   
-  for (var i = 0; i < values.length; i++) {
-    if (values[i][3] == userInfo.email) {
+  var i = 1;
+  while(i < values.length ) {
+    if (rowValue(values, i, "email") == userInfo.email) {
       userExists = true;
-      if(userInfo.firstname!=values[i][0]){
-        ws.getRange(i+1,0+1).setValue(userInfo.firstname);
-      }
-      if(userInfo.lastname!=values[i][1]){
-        ws.getRange(i+1,1+1).setValue(userInfo.lastname);
-      }
-      if(userInfo.UIN!=values[i][2]){
-        ws.getRange(i+1,2+1).setValue(userInfo.UIN);
-      }
-      if(userInfo.startsem!=values[i][4]){
-        ws.getRange(i+1,4+1).setValue(userInfo.startsem);
-      }
-      if(userInfo.qualstatus!=values[i][5]){
-        ws.getRange(i+1,5+1).setValue(userInfo.qualstatus);
-      }
-      if(userInfo.numattempts!=values[i][6]){
-        ws.getRange(i+1,6+1).setValue(userInfo.numattempts);
-      }
-      
-      if(userInfo.advisor!=values[i][7]){
-        ws.getRange(i+1,7+1).setValue(userInfo.advisor);
-      }
-      if(userInfo.coadvisor!=values[i][8]){
-        ws.getRange(i+1,8+1).setValue(userInfo.coadvisor);
-      }
-      
-      if(userInfo.degreeplanstatus!=values[i][9]){
-        ws.getRange(i+1,9+1).setValue(userInfo.degreeplanstatus);
-      }
-      
-      if(userInfo.prelime_date!=values[i][10]){
-        ws.getRange(i+1,10+1).setValue(userInfo.prelime_date);
-      }
-      if(userInfo.proposal_date!=values[i][11]){
-        ws.getRange(i+1,11+1).setValue(userInfo.proposal_date);
-      }
-      if(userInfo.defense_date!=values[i][12]){
-        ws.getRange(i+1,12+1).setValue(userInfo.defense_date);
-      }      
+      setRowValue(ws, values, i, "first_name", userInfo.firstname);
+      setRowValue(ws, values, i, "last_name", userInfo.lastname);
+      setRowValue(ws, values, i, "uin", userInfo.UIN);
+      setRowValue(ws, values, i, "start_semester", userInfo.startsem);
+      setRowValue(ws, values, i, "qualifying_exam_pass_fail", userInfo.qualstatus);
+      setRowValue(ws, values, i, "number_of_qualifying_exam_attempts", userInfo.numattempts);
+      setRowValue(ws, values, i, "advisor", userInfo.advisor);
+      setRowValue(ws, values, i, "co-advisor", userInfo.coadvisor);
+      setRowValue(ws, values, i, "degree_plan_submitted", userInfo.degreeplanstatus);
+      setRowValue(ws, values, i, "prelim_date", userInfo.prelime_date);
+      setRowValue(ws, values, i, "proposal_date", userInfo.proposal_date);
+      setRowValue(ws, values, i, "final_defense_date", userInfo.defense_date);      
       break;  
-    } 
+    }
+    
+    i++;
   }
   
   if (!userExists){ 
-    ws.appendRow([userInfo.firstname,userInfo.lastname,userInfo.UIN,userInfo.email,
-                  userInfo.startsem,userInfo.qualstatus,userInfo.numattempts,userInfo.advisor,
-                  userInfo.coadvisor,userInfo.degreeplanstatus,userInfo.prelime_date,userInfo.proposal_date,
-                  userInfo.defense_date
+    ws.appendRow([i, "", userInfo.firstname,userInfo.lastname,userInfo.UIN,userInfo.email,
+                  userInfo.startsem,1, 1, userInfo.advisor, userInfo.coadvisor,
+                  userInfo.degreeplanstatus,userInfo.qualstatus,userInfo.numattempts,
+                  "",userInfo.prelime_date,userInfo.proposal_date, userInfo.defense_date
                  ]);
   }
   
@@ -344,15 +328,14 @@ function uploadFileToDrive(content, filename, email,file_type){
 }
 
 function update_file_url(email,file_url){
-//  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("data");
+  var ws = ss.getSheetByName("Sheet1");
   var dataRange = ws.getDataRange();
   var values = dataRange.getValues();
   
-  for (var i = 0; i < values.length; i++) {
-    if (values[i][3] == email) {
-      ws.getRange(i+1,13+1).setValue(file_url);
+  for (var i = 1; i < values.length; i++) {
+    if (rowValue(values, i, "email") == email) {
+      setRowValue(ws, values, i, "cv_link", file_url);
     }
   }
   
