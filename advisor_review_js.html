@@ -134,6 +134,10 @@ function onSuccess(result) {
 all_student_records = result;
 console.log(all_student_records);
 
+
+
+
+
 $(function() {
   var MS_PER_DAY = 24 * 60 * 60 * 1000;
   var data = [];
@@ -173,9 +177,9 @@ $(function() {
       d["student_report"] = "NA",
       d["improvement_plan"] = "NA",
       d["cv"] = "NA",
-      d["more_student_details"] = "<a href=\"https://script.google.com#?v=student_details&uin=" + d["uin"] + "\" class=\"details-link\" style = \" color:blue;\"><u>Details</u></a>",
-      d["all_reviews"] = "<a href=\"https://script.google.com#?v=student_details&uin=" + d["uin"] + "\" class=\"all-reviews-link\" style = \" color:blue;\"><u>Details</u></a>",
-      d["add_review"] = "<a href=\"https://script.google.com#?v=add_review&uin=" + d["uin"] + "\" class=\"add-review-link\" style = \" color:blue;\"><u>Add Review</u></a>"
+      d["more_student_details"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbwa1jA6B4L7tpWLx-5Zpdpj9UkcfhpRd0C6zjnOi-r4/dev?v=student_details&uin=123456789 style = \" color:blue;\"><u>Details</u></a>",
+      d["all_reviews"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbwa1jA6B4L7tpWLx-5Zpdpj9UkcfhpRd0C6zjnOi-r4/dev?v=student_details&uin=123456789 style = \" color:blue;\"><u>Details</u></a>",
+      d["add_review"] = "<a href=https://script.google.com/a/tamu.edu/macros/s/AKfycbwa1jA6B4L7tpWLx-5Zpdpj9UkcfhpRd0C6zjnOi-r4/dev?v=add_review&uin=123456789 style = \" color:blue;\"><u>Add Review</u></a>"
       
       // data can also be populated this way:
       /*data[i] = {
@@ -218,20 +222,6 @@ $(function() {
     grid.invalidate();
     grid.render();
   });
-  
-  google.script.run.withSuccessHandler(function(result){
-    var detailsLinks = document.getElementsByClassName('details-link');
-    var allReviewsLinks = document.getElementsByClassName('all-reviews-link');
-    var addReviewLinks = document.getElementsByClassName('add-review-link');
-    for(var i = 0; i < all_student_records.length; i++) {
-      var detailsLink = detailsLinks[i];
-      var allReviewsLink = allReviewsLinks[i];
-      var addReviewLink = addReviewLinks[i];
-      detailsLink.href = detailsLink.href.replace('#', result._parts.path);
-      allReviewsLink.href = allReviewsLink.href.replace('#', result._parts.path);
-      addReviewLink.href = addReviewLink.href.replace('#', result._parts.path);
-    }
-  }).getScriptUrl();
 });
 
 }

@@ -19,13 +19,6 @@
     return true;
   }
   
-  function strToISODateStr(strDate) {
-    var parts = strDate.split('/');
-    var date = new Date(parts[2], parts[0]-1, parts[1]);
-    console.log(date);
-    return date.toISOString().slice(0,10);
-  }
-  
   function updateClicked(){     
     var userInfo = {};
     userInfo.firstname = document.getElementById("fn").value;
@@ -38,9 +31,9 @@
     userInfo.advisor = document.getElementById("advisor").value;
     userInfo.coadvisor = document.getElementById("co-advisor").value;
     userInfo.degreeplanstatus = document.getElementById("degree-plan").value;
-    userInfo.prelime_date  =  strToISODateStr(document.getElementById("prelim-date").value);
-    userInfo.proposal_date  =  strToISODateStr(document.getElementById("proposal-date").value);
-    userInfo.defense_date = strToISODateStr(document.getElementById("defense-date").value);
+    userInfo.prelime_date  =  document.getElementById("prelim-date").value;
+    userInfo.proposal_date  =  document.getElementById("proposal-date").value;
+    userInfo.defense_date = document.getElementById("defense-date").value;
   
     google.script.run.submitProfile(userInfo);
   
@@ -121,13 +114,13 @@
 
   }
   
-  function openPDF(){
-    var cv_url = document.getElementById('cv_url').href;
-    if (cv_url!="#"){
-      window.open(pdf);
-      return false;
-    }
-  }
+//  function openPDF(){
+//    var cv_url = document.getElementById('cv_url').href;
+//    if (cv_url!="#"){
+//      window.open(pdf);
+//      return false;
+////    }
+//  }
   
   // below from views/js/app.js
   
@@ -142,6 +135,21 @@
   console.log("here");
   }
   
+  function addToList(){
+  var files_div = document.getElementById("document_files");
+  var aTag = document.createElement('a');
+  aTag.setAttribute('href',"#");
+  aTag.setAttribute('class',"collection-item");
+  aTag.innerText = "Howdy";
+  files_div.appendChild(aTag);
+  }
+  
+ function removeToList(){
+  var file_div = document.getElementById("x2");
+  file_div.remove();
+  }
+  
+  
   document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('select');
   var instances = M.FormSelect.init(elems, {});
@@ -152,15 +160,9 @@
   var instances = M.Modal.init(elems, {dismissible: false, startingTop:'1%', endingTop:'0%'});
   });
   
-//  document.addEventListener('DOMContentLoaded', function() {
-//  var elems = document.querySelectorAll('.datepicker');
-//  var instances = M.Datepicker.init(elems, options);
-//  });
-
-  $(document).ready(function(){
-    $('.datepicker').datepicker({
-      format: 'mm/dd/yyyy'
-    });
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.datepicker');
+  var instances = M.Datepicker.init(elems);
   });
   
   document.addEventListener('DOMContentLoaded', function() {

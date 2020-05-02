@@ -41,7 +41,7 @@
               <span class="helper-text" data-error="Last name cannot be empty" data-success=""></span>
             </div>
             <div class="input-field col s2">
-              <input id="uin_" type="text" class="validate" pattern="[1-9][0-9]{2}00[0-9]{4}" data-error="Please enter correct UIN" required>
+              <input id="uin_" type="text" class="validate" pattern="[1-9][0-9]{2}00[0-9]{4}" data-error="Please enter correct UIN">
               <label for="uin_" >UIN</label>
               <span class="helper-text" data-error="Incorrect UIN" data-success=""></span>
             </div>
@@ -124,7 +124,7 @@
           </div>
 
           <div class="row">
-            <a id ="cv_url" class="btn waves-effect waves-light">View CV</a>
+            <a id ="cv_url" class="btn waves-effect waves-light" name="action" onclick = "openPDF()">  View CV</a>
           </div>
 
         <div class="row">

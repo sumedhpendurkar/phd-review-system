@@ -47,34 +47,42 @@
 
           <div id="result">
             <div class="row">
-              <button class="btn waves-effect waves-light" type="submit" name="action"> View previous report
-              </button>
-              <button class="btn waves-effect waves-light" type="submit" name="action"> View previous improvement plan
-              </button>
+              <div class="input-field col s3">
+                <select id="review-year">
+                 <option value="CV" selected>CV</option>
+                 <option value="Improvement Plan" selected>Improvement Plan</option>
+                </select>
+              <label for="review-year">Document Type</label>
+              </div>
+              
               <div class="file-field input-field s3">
-
                 <div class="btn">
-                  <span>Upload Report</span>
+                  <span>Select File</span>
                   <input type="file" id="report">
                 </div>
                 <div class="file-path-wrapper s3">
-                  <input class="file-path validate" type="text">
-                </div>
-              </div>
-
-
-              <div class="file-field input-field s3">
-
-                <div class="btn">
-
-                  <span>Upload Improvement Plan</span>
-                  <input type="file" id="improvement">
-                </div>
-                <div class="file-path-wrapper s3">
-                  <input class="file-path validate" type="text">
+                  <input class="file-path validate" type="text" onclick="console.log(2);">
                 </div>
               </div>
             </div>
+            
+            <!--delete this-->
+             <div class="row">
+             <a class="waves-effect waves-light btn" onclick="addToList()">Add to List</a>
+             <a class="waves-effect waves-light btn" onclick="removeToList()">Remove to List</a>
+             </div>
+            <!--delete this-->
+            
+            
+            <div class="row">
+              <div class="collection" id="document_files">
+                <a href="#" class="collection-item" id="x2">Alvin</a>
+                <a href="#" class="collection-item active">Alvin</a>
+                <a href="#" class="collection-item">Alvin</a>
+                <a href="#" class="collection-item">Alvin</a>
+              </div>
+            </div>
+
 
             <div class="row">
               <label> Comments for you </label>
