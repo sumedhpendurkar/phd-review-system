@@ -80,6 +80,9 @@ function userClickedLogin(userInfo){
   else if(search("Faculty", userInfo.email)){
     return 'faculty_view';
   }
+  else if(search("Admin", userInfo.email)){
+    return 'admin_view';
+  }
   else{
     return 'index';
   }
