@@ -3,6 +3,7 @@ var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_
 var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
 
+var userEmail = '';
 
 var Route = {};
 Route.path = function(param, callBack){
@@ -15,6 +16,7 @@ function doGet(e){
   var userInfo = {};
   userInfo.email = Session.getActiveUser().getEmail();
   Logger.log(userInfo.email); //actions can be taken based on these
+  userEmail = userInfo.email;
   var cls = null;
   if(e.parameters.v){
     cls = e.parameters.v; 
@@ -50,6 +52,25 @@ function doGet(e){
 //    Logger.log(e.parameter['page']);
     return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
   }*/
+}
+
+function getCredential(){
+  var userInfo = {};
+  userInfo.email = userEmail;
+  var view = userClickedLogin(userInfo);
+  if(view=='student_vnew'){
+    return 'student';
+  }
+  else if(view=='faculty_view'){
+    return 'faculty';
+  }
+  else if(view=='admin_view'){
+    return 'admin';
+  }
+  else{
+    return 'basic';
+  }
+  
 }
 
 function userClickedLogin(userInfo){
