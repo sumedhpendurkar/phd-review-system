@@ -2,7 +2,7 @@ var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_
 
 var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
-
+var student_review_sheet_url = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
 
 var Route = {};
 Route.path = function(param, callBack){
@@ -295,27 +295,18 @@ function uploadFileToDrive(content, filename, email,file_type){
       var file_url = fl.getUrl();
       update_file_url(email,file_url);
       
-      fileId = fl.getId();
-      Drive.Permissions.insert(
-        {
-          'role': 'reader',
-          'type': 'user',
-          'value': email
-        },
-        fileId,
-        {
-          'sendNotificationEmails': 'false'
-        });
+//      fileId = fl.getId();
+//      Drive.Permissions.insert(
+//        {
+//          'role': 'reader',
+//          'type': 'user',
+//          'value': email
+//        },
+//        fileId,
+//        {
+//          'sendNotificationEmails': 'false'
+//        });
       
-//      s_folder.createFile(blob);
-//      var file_url;
-//      var files = s_folder.getFilesByName(new_file_name);
-//      while (files.hasNext()) { 
-//        var file = files.next();
-//        if(file.getName()==new_file_name){
-//            file_url = file.getUrl();
-//        }
-//      }
     }
     
     
@@ -326,6 +317,89 @@ function uploadFileToDrive(content, filename, email,file_type){
   }
   
 }
+
+
+function uploadIp_R_ToDrive(content, filename,file_type,year){
+  
+  var email = Session.getActiveUser().getEmail();
+  try {
+    var dropbox = "phd_review_dev";
+    var folder, folders = DriveApp.getFoldersByName(dropbox);
+
+    if (folders.hasNext()) {
+      folder = folders.next();
+    } else {
+      folder = DriveApp.createFolder(dropbox);
+    }
+    
+    if (!folderExistsIn(folder,email)){
+      folder.createFolder(email);
+    }
+    
+    var s_folder, s_folders = DriveApp.getFoldersByName(email);
+    
+    if (s_folders.hasNext()) {
+      s_folder = s_folders.next();
+    }
+    
+    if (!folderExistsIn(s_folder,year)){
+      s_folder.createFolder(year);
+    }
+    
+    var y_folder, y_folders = DriveApp.getFoldersByName(year);
+    if (y_folders.hasNext()) {
+      y_folder = y_folders.next();
+      var c  = y_folder.getFiles();
+      if (c.hasNext()){
+        while (c.hasNext()){
+          file = c.next();
+          file_name = file.getName();
+          if (file_name.indexOf(file_type[0])==0){
+            file_id = file.getId();
+            y_folder.removeFile(file);
+          }
+        }
+//        while (c.hasNext()){
+//          file = c.next();
+//          file_name = file.getName();
+//          if (file_name.indexOf(file_type[0])==0){
+//            file.setName("p"+file_name);
+//          }
+//        }
+        Logger.log("Previous similar type file deleted");
+      }
+      
+      var new_file_name = file_type+"_"+filename;
+      var contentType = content.substring(5,content.indexOf(';')),
+          bytes = Utilities.base64Decode(content.substr(content.indexOf('base64,')+7)),
+          blob = Utilities.newBlob(bytes, contentType, new_file_name);
+          
+      fl = y_folder.createFile(blob);
+      var file_url = fl.getUrl();
+      update_review_files_url(email,file_url,file_type,year);
+      
+//      fileId = fl.getId();
+//      Drive.Permissions.insert(
+//        {
+//          'role': 'reader',
+//          'type': 'user',
+//          'value': email
+//        },
+//        fileId,
+//        {
+//          'sendNotificationEmails': 'false'
+//        });
+ 
+    }
+  }
+  catch (f){
+    return f.toString();
+  }
+}
+
+
+
+
 
 function update_file_url(email,file_url){
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
@@ -340,6 +414,98 @@ function update_file_url(email,file_url){
   }
   
   Logger.log("file url Updated")
+}
+
+
+
+
+function update_review_files_url(email,file_url,file_type,year){
+//  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  
+  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
+  var ww = rs.getSheetByName("Sheet1");
+  var rdataRange = ww.getDataRange();
+  var rvalues = rdataRange.getValues();
+  var flag = false;
+  
+  for (var i = 0; i < rvalues.length; i++) {
+    if (rvalues[i][0] == uin && rvalues[i][1] == year) {
+      flag=true;
+      if(file_type=="re"){
+        ww.getRange(i+1,6+1).setValue(file_url);
+      }
+      else{
+        ww.getRange(i+1,7+1).setValue(file_url);
+      }
+    }
+  }
+  
+  if(!flag){
+    if(file_type=="re"){
+      ww.appendRow([uin,year,"","","","",file_url
+                 ]);
+    }
+    else{
+      ww.appendRow([uin,year,"","","","","",file_url
+                 ]);
+    }
+      
+  }
+  
+  
+  Logger.log("file url Updated")
+}
+
+
+
+function get_urls(year){
+  
+  var email = Session.getActiveUser().getEmail();
+  var urls ={};
+  urls.report="";
+  urls.improvement = "";
+  
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  
+  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
+  var ww = rs.getSheetByName("Sheet1");
+  var rdataRange = ww.getDataRange();
+  var rvalues = rdataRange.getValues();
+  var flag = false;
+  
+  for (var i = 0; i < rvalues.length; i++) {
+    if (rvalues[i][0] == uin && rvalues[i][1] == year) {
+      if(rvalues[i][6]!=""){
+        urls.report = rvalues[i][6];
+      }
+      if(rvalues[i][7]!=""){
+        urls.improvement = rvalues[i][7];
+      }
+      
+    }
+  }
+  
+  return urls;
+
 }
 
 //////////////////////////////////////

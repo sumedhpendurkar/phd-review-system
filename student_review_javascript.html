@@ -1,0 +1,191 @@
+<script>
+function initialize(){
+  var a  = document.getElementById("review-year");
+  var d = new Date();
+  for(y = d.getFullYear(); y > 2010; y--) {
+    var optn = document.createElement("OPTION");
+    optn.text = y;
+    optn.value = y;
+    
+    a.options.add(optn);
+  }
+  M.FormSelect.init(a);
+}
+
+function uploadClicked(){
+  var year = document.getElementById("review-year").value;
+  var ip = document.getElementById("improvement").files[0];
+  var re = document.getElementById("report").files[0];
+  if (ip){
+  
+    var d = document.getElementById('ip_url');
+    d.removeAttribute("href");
+    document.getElementById('VI').disabled = true;
+    uploadFile(ip,"ip",year);
+  }
+  if (re){
+    var c = document.getElementById('re_url');
+    c.removeAttribute("href");
+    
+    document.getElementById('VR').disabled = true;
+    uploadFile(re,"re",year);
+  }
+}
+
+function uploadFile(f,file_type,year) {
+  
+  var file, reader = new FileReader();
+  reader.onloadend = function(e) {
+    google.script.run.withSuccessHandler(reset_fields)
+    .uploadIp_R_ToDrive(
+    e.target.result, file.name,
+    file_type,year
+    );
+  };
+
+  file = f;
+  if(file){  
+    reader.readAsDataURL(file);
+  }
+  
+//  var s = document.getElementById("test");
+//  s.innehHTML = "hello";
+  
+}
+
+function reset_fields(){
+  console.log("Inside reset fields");
+  var a = document.getElementById("improvement");
+  a.value = "";
+  
+  var b = document.getElementById("report");
+  b.value = "";
+    
+  get_data1();
+  
+  console.log("Exiting");
+}
+
+
+function get_data(){
+
+  var x = document.getElementById("result");
+  x.style.display = "none";
+  
+  var a = document.getElementById('re_url');
+  a.removeAttribute("href");
+  
+  var b = document.getElementById('ip_url');
+  b.removeAttribute("href");
+  
+  var year = document.getElementById("review-year").value;
+  google.script.run.withSuccessHandler(onSuccess).get_urls(year);
+} 
+
+
+function get_data1(){
+  
+  var year = document.getElementById("review-year").value;
+  google.script.run.withSuccessHandler(onSuccess).get_urls(year);
+} 
+
+
+function onSuccess(urls){
+  
+  var a = document.getElementById('re_url');
+  var b = document.getElementById('ip_url');
+  
+  if (urls.report!=""){
+    console.log("ipurl"+urls.report);
+    a.href = urls.report;
+  }
+  
+  if (urls.improvement!=""){
+    console.log("ipurl"+urls.improvement);
+    b.href = urls.improvement;
+  }
+
+  var x = document.getElementById("result");
+  x.style.display = "block";
+  
+  document.getElementById('VR').disabled = false;
+  document.getElementById('VI').disabled = false;
+  
+  M.updateTextFields()
+}
+
+function check_ip(){
+  var b = document.getElementById('ip_url');
+  if(b.href==""){
+    alert("Improvement Plan not uploaded for this review year");
+  }
+}
+
+function check_re(){
+  var b = document.getElementById('re_url');
+  if(b.href==""){
+    alert("Improvement Plan not uploaded for this review year");
+  }
+}
+
+function get_comments(){
+  var x = document.getElementById("rde");
+  x.style.display = "block";
+}
+
+
+
+// below from views/js/app.js
+  
+  
+  function load_monitor(){
+  
+  M.textareaAutoResize($('#textarea1'));
+  
+  }
+  
+//  function EditReview(){
+//  console.log("here");
+//  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems, {});
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems, {dismissible: false, startingTop:'1%', endingTop:'0%'});
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.datepicker');
+  var instances = M.Datepicker.init(elems);
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
+  });
+  // Or with jQuery
+  
+  $(document).ready(function(){
+  $('.modal').modal();
+  });
+  
+  
+  // Or with jQuery
+  
+  $(document).ready(function(){
+  $('select').formSelect();
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  var instances = M.FloatingActionButton.init(elems, {
+  direction: 'left',
+  hoverEnabled: false
+  });
+  });
+
+</script>

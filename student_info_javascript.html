@@ -1,15 +1,6 @@
 <script>
   function resetProfileFields() {  
-//     var current_date = new Date();
-//     var current_year = current_date.getFullYear();
-//     
-//     var year = 2000;
-//     var till = current_year;
-//     var options = "";
-//     for(var y=year; y<=till; y++){
-//     options += "<option>"+ y +"</option>";
-//     }
-     
+
      document.getElementById("cv").value = "";
      google.script.run.withSuccessHandler(onSuccess).getProfileInformation();
   }
@@ -120,15 +111,16 @@
     M.updateTextFields()
 
   }
-  
-  function openPDF(){
-    var cv_url = document.getElementById('cv_url').href;
-    if (cv_url!="#"){
-      window.open(pdf);
-      return false;
-    }
+
+function check_cv(){
+  var b = document.getElementById('cv_url');
+  if(b.href==""){
+    alert("CV not Uploaded");
   }
-  
+}
+
+
+
   // below from views/js/app.js
   
   
