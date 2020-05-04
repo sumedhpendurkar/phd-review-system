@@ -1,5 +1,6 @@
 var url_student_personal_details = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var url_student_review_details = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
+var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
 function getAllStudentRecords() {
   var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
@@ -17,6 +18,28 @@ function getAllStudentsReviewData() {
   var student_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
   Logger.log(student_records);
   return student_records;
+}
+
+function getAllReviewYearInformation() {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  
+  var review_year_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
+  Logger.log(review_year_records);
+  return review_year_records;
+}
+
+function getActiveReviewYear() {
+  var filteredData = getAllReviewYearInformation();
+  filteredData = ArrayLib.filterByText(filteredData, 1, "1");
+  Logger.log(filteredData);
+  if(filteredData.length == 1) {
+    Logger.log(filteredData[0][0]);
+    return filteredData[0][0];
+  }
+  else {
+    return "None";
+  }
 }
 
 function getEmptyReviewData() {
