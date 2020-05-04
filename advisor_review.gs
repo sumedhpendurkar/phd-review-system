@@ -238,11 +238,11 @@ function getThatStudentInfo(uin){
 }
 
 function getStudentReviews(uin){
-  var ss = SpreadsheetApp.openByUrl(url_student_review_details);
-  var ws = ss.getSheetByName("Sheet1");
+  var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
+  var ws = ss.getSheetByName("Sheet2");
 
   var student_reviews = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
-  var filtered_student_reviews = ArrayLib.filterByText(student_reviews, 0, uin);
+  var filtered_student_reviews = ArrayLib.filterByText(student_reviews, 1, uin);
 
   return filtered_student_reviews;
 }
@@ -252,8 +252,8 @@ function convertFilteredStudentReviewsDataToHTMLTable(filtered_student_reviews){
   for(var i = 0; i < filtered_student_reviews.length; i++){
     tableDataHtml = tableDataHtml + "<tr>" + 
                                         "<td>" + filtered_student_reviews[i][3] + "</td>" + 
-                                        "<td>" + filtered_student_reviews[i][1] + "</td>" + 
-                                        "<td>" + filtered_student_reviews[i][8] + "</td>" + 
+                                        "<td>" + filtered_student_reviews[i][2] + "</td>" + 
+                                        "<td>" + filtered_student_reviews[i][6] + "</td>" + 
                                     "</tr>";
   }
   return tableDataHtml;
