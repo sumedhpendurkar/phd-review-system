@@ -4,6 +4,8 @@ var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4B
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
 var student_review_sheet_url = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
 
+var userEmail = '';
+
 var Route = {};
 Route.path = function(param, callBack){
   Route[param] = callBack;
@@ -15,6 +17,7 @@ function doGet(e){
   var userInfo = {};
   userInfo.email = Session.getActiveUser().getEmail();
   Logger.log(userInfo.email); //actions can be taken based on these
+  userEmail = userInfo.email;
   var cls = null;
   if(e.parameters.v){
     cls = e.parameters.v; 
@@ -59,9 +62,31 @@ function userClickedLogin(userInfo){
   else if(search("Faculty", userInfo.email)){
     return 'faculty_view';
   }
+  else if(search("Admin", userInfo.email)){
+    return 'admin_view';
+  }
   else{
     return 'index';
   }
+}
+
+function getCredential(){
+  var userInfo = {};
+  userInfo.email = userEmail;
+  var view = userClickedLogin(userInfo);
+  if(view =='student_view'){
+    return 'student';
+  }
+  else if(view =='faculty_view'){
+    return 'faculty';
+  }
+  else if(view =='admin_view'){
+    return 'admin';
+  }
+  else{
+    return 'basic';
+  }
+
 }
 
 function search(sheetName, searchTerm){//usage: search('Student', 'a.kunder@tamu.edu') or search('Faculty', 'xyz@tamu.edu')
@@ -112,6 +137,7 @@ function loadAddReview(e){
   args.uinValue = e.parameters.uin;
   args.firstName = "Anna";
   args.lastName = "Shekhawat";
+  Logger.log("args are ----- " + args)
   return render("add_student_review", args);
 }
 
