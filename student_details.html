@@ -93,12 +93,12 @@
                 </div>
                 
                 <div class="input-field col s3">
-                  <input id="prelim-date" type="text" value="<?= record[15] ?>" disabled>
+                  <input id="prelim-date" type="text" <? var display = (record[15].length != 0 ? Utilities.formatDate(record[15], 'US/Central', 'MMMM dd, yyyy') : ''); ?> value="<?= display; ?>" disabled>
                   <label for="prelim-date">Prelim Date</label>
                 </div>
                 
                 <div class="input-field col s3" >
-                  <input id="proposal-date" type="text" value="<?= record[16] ?>" disabled>
+                  <input id="proposal-date" type="text" <? var display = (record[16].length != 0 ? Utilities.formatDate(record[16], 'US/Central', 'MMMM dd, yyyy') : ''); ?> value="<?= display; ?>" disabled>
                   <label for="proposal-date">Proposal Date</label>
                 </div>
                 <!-- THIS CAN BE USED INSTEAD WHEN TO GIVE A GOOD FORMAT TO DATES>
@@ -107,7 +107,7 @@
                   <!----input id="final-defense-date" type="text" value="<!?= Utilities.formatDate(record[17], 'US/Central', 'MMMM dd, yyyy'); ?>" disabled>
                   <label for="final-defense-date">Final Defense Date</label-->
                 <div class="input-field col s3" disabled>
-                  <input id="final-defense-date" type="text" value="<?= record[17] ?>" disabled>
+                  <input id="final-defense-date" type="text" <? var display = (record[17].length != 0 ? Utilities.formatDate(record[17], 'US/Central', 'MMMM dd, yyyy') : ''); ?> value="<?= display; ?>" disabled>
                   <label for="final-defense-date">Final Defense Date</label>
                 </div>
                 
