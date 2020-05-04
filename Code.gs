@@ -73,22 +73,9 @@ function userClickedLogin(userInfo){
   }
 }
 
-function isAdmin(){
-  Logger.log(getCredential());
-  return "admin" == getCredential();
-}
-
-function isFaculty(){
-  return "faculty" == getCredential();
-}
-
-function isStudent(){
-  return "student" == getCredential();
-}
-
 function getCredential(){
   var userInfo = {};
-  userInfo.email = Session.getActiveUser().getEmail();
+  userInfo.email = userEmail;
   var view = userClickedLogin(userInfo);
   if(view =='student_view'){
     return 'student';
@@ -250,15 +237,15 @@ function getProfileInformation() {
       userInfo.degreeplanstatus = rowValue(values, i, "degree_plan_submitted");
       
       if(values[i][10]!=""){
-        userInfo.prelime_date = rowValue(values, i, "prelim_date");
+        userInfo.prelime_date = rowValue(values, i, "prelim_date").toLocaleDateString();
       }
       
       if(values[i][11]!=""){
-        userInfo.proposal_date = rowValue(values, i, "proposal_date");
+        userInfo.proposal_date = rowValue(values, i, "proposal_date").toLocaleDateString();
       }
       
       if(values[i][12]!=""){
-      userInfo.defense_date = rowValue(values, i, "final_defense_date");
+      userInfo.defense_date = rowValue(values, i, "final_defense_date").toLocaleDateString();
       }
       
       userInfo.cv_url = rowValue(values, i, "cv_link");

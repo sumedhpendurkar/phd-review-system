@@ -9,13 +9,7 @@ function submitStudentReview() {
 
 */
 
-document.getElementById("admin-view").style.visibility = "hidden";
-google.script.run.withSuccessHandler(hideAdminView).isAdmin();
 
-function hideAdminView(result) {
-  if (result == true) //is not Admin!
-    document.getElementById("admin-view").style.visibility = "visible";
-}
 // ---------- slickgrid stuff ------------
 
 var grid;
