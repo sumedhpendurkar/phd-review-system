@@ -137,3 +137,35 @@ function getStudentInfo(uin){
   Logger.log(filtered_student_record)
   return filtered_student_record;
 }
+
+function getThatStudentInfo(uin){
+  var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
+  var ws = ss.getSheetByName("Sheet1");
+
+  var student_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
+  var filtered_student_record = ArrayLib.filterByText(student_records, 4, uin);
+
+  return filtered_student_record;
+}
+
+function getStudentReviews(uin){
+  var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
+  var ws = ss.getSheetByName("Sheet2");
+
+  var student_reviews = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
+  var filtered_student_reviews = ArrayLib.filterByText(student_reviews, 1, uin);
+
+  return filtered_student_reviews;
+}
+
+function convertFilteredStudentReviewsDataToHTMLTable(filtered_student_reviews){
+  var tableDataHtml = "";
+  for(var i = 0; i < filtered_student_reviews.length; i++){
+    tableDataHtml = tableDataHtml + "<tr>" + 
+                                        "<td>" + filtered_student_reviews[i][3] + "</td>" + 
+                                        "<td>" + filtered_student_reviews[i][2] + "</td>" + 
+                                        "<td>" + filtered_student_reviews[i][6] + "</td>" + 
+                                    "</tr>";
+  }
+  return tableDataHtml;
+}
