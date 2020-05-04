@@ -224,12 +224,12 @@ function getProfileInformation() {
   userInfo.numattempts = "";
   userInfo.advisor = "";
   userInfo.coadvisor = "";
-  userInfo.degreeplanstauts = "";
+  userInfo.degreeplanstatus = "";
   userInfo.prelime_date = "";
   userInfo.proposal_date = "";
   userInfo.defense_date = "";
   userInfo.cv_url = "";
-
+  
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
   var ws = ss.getSheetByName("Sheet1");
   var values = ws.getDataRange().getValues();
@@ -238,6 +238,7 @@ function getProfileInformation() {
   for (var i = 1; i < values.length; i++) {
     if (rowValue(values, i, "email") == userInfo.email) {
       
+      Logger.log("Email"+userInfo.email);
       userInfo.firstname = rowValue(values, i, "first_name");
       userInfo.lastname = rowValue(values, i, "last_name");
       userInfo.UIN = rowValue(values, i, "uin");
@@ -248,25 +249,25 @@ function getProfileInformation() {
       userInfo.coadvisor = rowValue(values, i, "co-advisor");
       userInfo.degreeplanstatus = rowValue(values, i, "degree_plan_submitted");
       
-      if(values[i][10]!=""){
-        userInfo.prelime_date = rowValue(values, i, "prelim_date");
+      if(rowValue(values, i, "prelim_date")!=""){
+        userInfo.prelime_date = rowValue(values, i, "prelim_date").toISOString();
       }
       
-      if(values[i][11]!="") {
-        userInfo.proposal_date = rowValue(values, i, "proposal_date");
+      if(rowValue(values, i, "proposal_date")!="") {
+        userInfo.proposal_date = rowValue(values, i, "proposal_date").toISOString();
       }
-      
-      if(values[i][12]!=""){
-      userInfo.defense_date = rowValue(values, i, "final_defense_date");
+            
+      if(rowValue(values, i, "final_defense_date")!=""){
+        userInfo.defense_date = rowValue(values, i, "final_defense_date").toISOString();
       }
       
       userInfo.cv_url = rowValue(values, i, "cv_link");
       
       break;
     }
-  
-  Logger.log(userInfo)
   }
+  Logger.log("Returning Userinfo");
+  Logger.log(userInfo);
   return userInfo;
 }
 //////////////////////////////////////////////////////////////////////// Updating Student Informaiton //////////////////////////////////////////////////////
@@ -371,7 +372,7 @@ function uploadFileToDrive(content, filename, email,file_type){
       var file_url = fl.getUrl();
       update_file_url(email,file_url);
       
-//      fileId = fl.getId();
+      fileId = fl.getId();
 //      Drive.Permissions.insert(
 //        {
 //          'role': 'reader',
@@ -555,29 +556,29 @@ function check_uin(){
   return uin;
 }
 
-function get_urls(year){
+function get_urls(uin, year){
   
-  var email = Session.getActiveUser().getEmail();
+//  var email = Session.getActiveUser().getEmail();
+  
+//  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+//  var ws = ss.getSheetByName("Sheet1");
+//  var dataRange = ws.getDataRange();
+//  var values = dataRange.getValues();
+//  var uin = "";
+//  for (var i = 0; i < values.length; i++) {
+//    if (values[i][5] == email) {
+//      uin = values[i][4];
+//    }
+//  }
+  
   var urls ={};
   urls.report="";
   urls.improvement = "";
-  
-  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
-  var ws = ss.getSheetByName("Sheet1");
-  var dataRange = ws.getDataRange();
-  var values = dataRange.getValues();
-  var uin = "";
-  for (var i = 0; i < values.length; i++) {
-    if (values[i][5] == email) {
-      uin = values[i][4];
-    }
-  }
-  
+
   var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
   var ww = rs.getSheetByName("Sheet1");
   var rdataRange = ww.getDataRange();
   var rvalues = rdataRange.getValues();
-  var flag = false;
   
   for (var i = 0; i < rvalues.length; i++) {
     if (rvalues[i][0] == uin && rvalues[i][1] == year) {
@@ -586,8 +587,7 @@ function get_urls(year){
       }
       if(rvalues[i][7]!=""){
         urls.improvement = rvalues[i][7];
-      }
-      
+      } 
     }
   }
   
@@ -619,17 +619,9 @@ function getReviewDetails(year){
   for (var i = 0; i < rvalues.length; i++) {
     if (rvalues[i][0] == uin && rvalues[i][1] == year && rvalues[i][2]!="admin") {
       if (rvalues[i][2]!=""){
-        comments += " Reviewer Name: "+ rvalues[i][2]+"\t\t\t\t";
-        comments += "Comments : "+ rvalues[i][8]+"\n\n";
+//        comments += " Reviewer Name: "+ rvalues[i][2]+"\t\t\t\t";
+        comments += rvalues[i][8]+"\n\n";
       }
-    }
-    if(rvalues[i][0] == uin && rvalues[i][1] == year && rvalues[i][2]!="admin") {
-      
-      comments+=" Departmental Review : \n\n";
-      comments += "Rating :"+ rvalues[i][3];
-      comments += "\n\nRating :"+ rvalues[i][3];
-      
-    
     }  
   }
   

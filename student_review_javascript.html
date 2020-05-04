@@ -79,6 +79,7 @@ function reset_fields(){
   document.getElementById('iname').value = "";
   
   get_data1();
+  
 }
 
 
@@ -105,6 +106,7 @@ function get_links(uin){
     alert("UIN not found Enter UIN first and then upload ");
   }
 }
+
 
 function get_data1(){
 
@@ -148,7 +150,7 @@ function check_ip(){
 function check_re(){
   var b = document.getElementById('re_url');
   if(b.href==""){
-    alert("Improvement Plan not uploaded for this review year");
+    alert("Report not uploaded for this review year");
   }
 }
 
@@ -159,6 +161,7 @@ function get_comments(){
   google.script.run.withSuccessHandler(display_comments).getReviewDetails(year);
   
 }
+
 
 function display_comments(comments){
   if (comments !=""){
@@ -172,6 +175,7 @@ function display_comments(comments){
   x.style.display = "block";
   
 }
+
 
 // below from views/js/app.js
   
