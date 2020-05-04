@@ -45,6 +45,11 @@ function onSuccessToGetStudentReviewInformation(result) {
     document.getElementById("needsToDoPrelim").checked = result[16] == 1 ? true : false;
     document.getElementById("needsToSubmitProposal").checked = result[17] == 1 ? true : false;
     document.getElementById("needsToFinishSoon").checked = result[18] == 1 ? true : false;
+    var viewStudentReport = document.getElementById('viewStudentReport');
+    viewStudentReport.href = result[6];
+    var viewImprovementPlan = document.getElementById('viewImprovementPlan');
+    viewImprovementPlan.href = result[7];
+    
 }
 
 var reviewSubmitButtonElement = document.getElementById("reviewSubmitButton");
