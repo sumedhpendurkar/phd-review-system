@@ -127,8 +127,13 @@ var options = {
 
 
 var all_student_records;
+var scriptUrl;
+google.script.run.withSuccessHandler(successHandler).getMyScriptUrl();
 
-google.script.run.withSuccessHandler(onSuccess).getAllStudentRecords();
+function successHandler(urlString){
+  scriptUrl = urlString;
+  google.script.run.withSuccessHandler(onSuccess).getAllStudentRecords();
+}
 
 function onSuccess(result) {
 all_student_records = result;
@@ -173,8 +178,18 @@ $(function() {
       d["student_report"] = "NA",
       d["improvement_plan"] = "NA",
       d["cv"] = "NA",
-      d["more_student_details"] = "<a href=\"https://script.google.com#?v=student_details&uin=" + d["uin"] + "\" class=\"details-link\" style = \" color:blue;\"><u>Details</u></a>",
-      d["all_reviews"] = "<a href=\"https://script.google.com#?v=student_details&uin=" + d["uin"] + "\" class=\"all-reviews-link\" style = \" color:blue;\"><u>Details</u></a>",
+      console.log(scriptUrl + "?v=student_details&uin=" + all_student_records[i][4]);
+      var t = "'" + scriptUrl + "?v=student_details&uin=" + all_student_records[i][4] +"'";
+      console.log(t);
+      console.log("<a href=" + t + "<u>Details</u></a>");
+      d["more_student_details"] = "<a href=" + t + "><u>Details</u></a>",
+      // d["more_student_details"] = "<a href=\"https://script.google.com#?v=student_details&uin=" + d["uin"] + "\" class=\"details-link\" style = \" color:blue;\"><u>Details</u></a>",
+
+      console.log(scriptUrl + "?v=see_reviews&uin=" + all_student_records[i][4]);
+      var t = "'" + scriptUrl + "?v=see_reviews&uin=" + all_student_records[i][4] +"'";
+      console.log(t);
+      console.log("<a href=" + t + "<u>Details</u></a>");
+      d["all_reviews"] = "<a href=" + t + "><u>Details</u></a>",
       d["add_review"] = "<a href=\"https://script.google.com#?v=add_review&uin=" + d["uin"] + "\" class=\"add-review-link\" style = \" color:blue;\"><u>Add Review</u></a>"
       
       // data can also be populated this way:
