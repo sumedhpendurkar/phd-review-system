@@ -52,11 +52,11 @@
             <br>
             <div class = "row">
                 <div class="input-field col s3">
-                    <input placeholder="e.g. 2020" id="new-review-year" type="text" class="validate">
+                    <input placeholder="e.g. 2020" id="new_review_year" type="text" class="validate">
                     <label style = "font-size: 18px;">Enter new review year's name</label>
                 </div>
                 <div class="input-field col s3">
-                    <a id="add-new-review-year" class="waves-effect waves-light btn">Add</a>
+                    <a id="add_new_review_year" class="waves-effect waves-light btn">Add</a>
                 </div>
             </div>
             <br>
@@ -72,10 +72,13 @@
             <div class = "row">
                 <div class="input-field col s3">
                   <select id = "review_year">
-                    <option value = "2020">2020</option>
+                  <? for(var i = 0; i < review_years.length; i++) { ?>
+                  <option ><?=review_years[i]?></option>
+                  <? } ?>
+                    <!--option value = "2020">2020</option>
                     <option value = "2019">2019</option>
                     <option value = "2018">2018</option>
-                    <option value = "2017">2017</option>
+                    <option value = "2017">2017</option-->
                   </select>
                   <label>Review Year</label>
                 </div>

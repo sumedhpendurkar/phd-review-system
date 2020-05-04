@@ -42,6 +42,72 @@ function getActiveReviewYear() {
   }
 }
 
+function addNewReviewYear(newReviewYear) {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var dataExists = false;
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == newReviewYear) {
+      dataExists = true;
+      Logger.log("review year exists");
+      return "The review year already exists!";
+    } 
+  }
+  
+  Logger.log("adding new review year");
+    ws.appendRow([newReviewYear, 0]);
+  return "Review year added! Please refresh the page to view the latest review year.";
+}
+
+function endCurrentReviewYear() {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var ended = false;
+  var currentReviewYear = getActiveReviewYear();
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == currentReviewYear) {
+      ended = true;
+      ws.getRange(i + 1,1 + 1).setValue(0);
+      break;
+    } 
+  }
+  
+  if(ended) {
+    Logger.log("Ended current review year");
+    return "Ended the review year " + currentReviewYear + "! Please refresh the page to view the latest state.";
+  }
+  return "No active review year found!";
+}
+
+function beginThisReviewYear(reviewYear) {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var begun = false;
+  var currentReviewYear = getActiveReviewYear();
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == reviewYear) {
+      ws.getRange(i + 1,1 + 1).setValue(1);
+      begun = true;
+      break;
+    } 
+  }
+  
+  if(begun) {
+    Logger.log("Ended current review year");
+    return "Started the review year " + reviewYear + "! Please refresh the page to view the latest state.";
+  }
+  return "Review year " + reviewYear + " not found!";
+}
+
 function getEmptyReviewData() {
   var student_records = [];
   for(var i = 0; i < 21; i++) {
