@@ -3,6 +3,7 @@ var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_
 var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
 var student_review_sheet_url = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
+var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
 var userEmail = '';
 
@@ -116,6 +117,7 @@ function render(file, argsObject){
       tmp[key] = argsObject[key];
     });
   }//END IF
+  //Logger.log("in render:" + tmp["review_years"]);
   return tmp.evaluate();
 }
 
@@ -154,10 +156,18 @@ function loadAllStudentReviews(e){
 function loadAddReview(e){
   var args = {};
   args.uinValue = e.parameters.uin;
-  args.firstName = "Anna";
-  args.lastName = "Shekhawat";
   Logger.log("args are ----- " + args)
   return render("add_student_review", args);
+}
+
+function getAllReviewYears() {
+  var review_year_records = getAllReviewYearInformation();
+  Logger.log(review_year_records);
+  var all_review_years = review_year_records.map(function(r){return r[0];});
+  all_review_years.sort();
+  all_review_years.reverse();
+  Logger.log(all_review_years);
+  return all_review_years;
 }
 
 function loadStudentView() {
@@ -169,7 +179,10 @@ function loadFacultyView() {
 }
 
 function loadAdminView() {
-  return render("admin");
+  var review_years = getAllReviewYears();
+  var args = {};
+  args.review_years = review_years;
+  return render("admin", args);
 }
 
 function loadHome(){
