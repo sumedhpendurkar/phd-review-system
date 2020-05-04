@@ -9,13 +9,7 @@ function submitStudentReview() {
 
 */
 
-document.getElementById("admin-view").style.visibility = "hidden";
-google.script.run.withSuccessHandler(hideAdminView).isAdmin();
 
-function hideAdminView(result) {
-  if (result == true) //is not Admin!
-    document.getElementById("admin-view").style.visibility = "visible";
-}
 // ---------- slickgrid stuff ------------
 
 var grid;
@@ -24,7 +18,7 @@ var columns = [
     name: 'UIN', 
     field: 'uin', 
     sortable: true, 
-    width: 120 
+    width: 110 
   },
   {
     id: 'name',
@@ -32,37 +26,37 @@ var columns = [
     field: 'name',
     sortable: true,
     toolTip: 'Really Really Really Long Title',
-    width: 220
+    width: 210
   },
   {
     id: 'advisor',
     name: 'Advisor',
     field: 'advisor',
     sortable: true,
-    width: 220
+    width: 210
   },
   {
     id: 'start_semester',
     name: 'Start Semester',
     field: 'start_semester',
     sortable: true,
-    width: 130
+    width: 100
   },
   {
     id: 'qual_exam',
     name: 'Qual Exam',
     field: 'qual_exam',
     sortable: true,
-    width: 110
+    width: 80
   },
   {
     id: 'degree_plan_submitted',
     name: 'Degree Plan Submitted',
     field: 'degree_plan_submitted',
     sortable: true,
-    width: 150
+    width: 120
   },
-  /*{
+  {
     id: 'student_report',
     name: 'Student Report',
     field: 'student_report',
@@ -75,14 +69,13 @@ var columns = [
     field: 'improvement_plan',
     sortable: true,
     width: 100
-  },*/
+  },
   {
     id: 'cv',
     name: 'CV',
     field: 'cv',
     sortable: true,
-    formatter: linkFormatter,
-    width: 110
+    width: 100
   },
   {
     id: 'more_student_details',
@@ -90,7 +83,7 @@ var columns = [
     field: 'more_student_details',
     sortable: false,
     formatter: linkFormatter,
-    width: 120
+    width: 100
   },
   {
     id: 'all_reviews',
@@ -98,7 +91,7 @@ var columns = [
     field: 'all_reviews',
     sortable: false,
     formatter: linkFormatter,
-    width: 120
+    width: 90
   },
   {
     id: 'add_review',
@@ -106,7 +99,7 @@ var columns = [
     field: 'add_review',
     sortable: false,
     formatter: linkFormatter,
-    width: 120  },
+    width: 110  },
 ];
 
 function dayFormatter(row, cell, value, columnDef, dataContext) {
@@ -182,9 +175,9 @@ $(function() {
       d["start_semester"] = all_student_records[i][6],
       d["qual_exam"] = all_student_records[i][12],
       d["degree_plan_submitted"] = all_student_records[i][11],
-      //d["student_report"] = "NA",
-      //d["improvement_plan"] = "NA",
-      d["cv"] = "<a href=" + all_student_records[i][14] + "><u>CV</u></a>",
+      d["student_report"] = "NA",
+      d["improvement_plan"] = "NA",
+      d["cv"] = "NA",
       console.log(scriptUrl + "?v=student_details&uin=" + all_student_records[i][4]);
       var t = "'" + scriptUrl + "?v=student_details&uin=" + all_student_records[i][4] +"'";
       console.log(t);
@@ -196,13 +189,8 @@ $(function() {
       var t = "'" + scriptUrl + "?v=see_reviews&uin=" + all_student_records[i][4] +"'";
       console.log(t);
       console.log("<a href=" + t + "<u>Details</u></a>");
-      d["all_reviews"] = "<a href=" + t + "><u>Reviews</u></a>",
-      
-      console.log(scriptUrl + "?v=add_review&uin=" + all_student_records[i][4]);
-      var t = "'" + scriptUrl + "?v=add_review&uin=" + all_student_records[i][4] +"'";
-      console.log(t);
-      console.log("<a href=" + t + "<u>Details</u></a>");
-      d["add_review"] = "<a href=" + t + "><u>Add Review</u></a>"
+      d["all_reviews"] = "<a href=" + t + "><u>Details</u></a>",
+      d["add_review"] = "<a href=\"https://script.google.com#?v=add_review&uin=" + d["uin"] + "\" class=\"add-review-link\" style = \" color:blue;\"><u>Add Review</u></a>"
       
       // data can also be populated this way:
       /*data[i] = {
