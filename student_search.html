@@ -20,7 +20,7 @@
       <!--link rel="stylesheet" href="css/app.css"-->
       
       <?!= include('css'); ?>
-      <?!= include('advisor_review_css'); ?>
+      <?!= include('student_search_css'); ?>
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
@@ -31,6 +31,7 @@
           <div class="nav-wrapper tamu-navbar">
             <a href="#" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li ><a href="<?= getScriptUrl();?>?v=admin_view">Admin</a></li>
               <li class="active"><a href="<?= getScriptUrl();?>?v=faculty_view">Student Search</a></li>
               <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
             </ul>
@@ -55,12 +56,6 @@
               <div class="input-field col s2">
                 <input id="uin" type="text" class="validate" data-length="10">
                 <label for="uin">UIN</label>
-              </div>
-              <div class="input-field col s2">
-                <select id="year">
-                  <option value="" disabled selected>Choose Year</option>
-                </select>
-                <label>Select Review Year</label>
               </div>
             </div>
             <div class="row">
@@ -133,6 +128,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
       
       <?!= include("student_info_javascript") ?>
-      <?!= include("advisor_review_js") ?>
+      <?!= include("student_search_js") ?>
     </body>
   </html>

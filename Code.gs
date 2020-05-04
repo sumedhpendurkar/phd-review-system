@@ -28,6 +28,7 @@ function doGet(e){
   
   Route.path("student_view", loadStudentView);
   Route.path("faculty_view", loadFacultyView);
+  Route.path("admin_view", loadAdminView);
   Route.path("student_review", loadStudentReview);
   Route.path("student_details", loadStudentDetails);
   Route.path("add_review", loadAddReview);
@@ -44,7 +45,7 @@ function doGet(e){
 //  Logger.log(ScriptApp.getService().getUrl());
 //  var student_records = getAllStudentRecords();
 //  //if (!e.parameter.page){
-//    var tmp = HtmlService.createTemplateFromFile("review_monitor");
+//    var tmp = HtmlService.createTemplateFromFile("student_search");
 //    tmp.records = student_records;
 //    Logger.log("records -------" + student_records[0][1]);
 //    return tmp.evaluate();
@@ -146,7 +147,11 @@ function loadStudentView() {
 }
 
 function loadFacultyView() {
-  return render("review_monitor");
+  return render("student_search");
+}
+
+function loadAdminView() {
+  return render("admin");
 }
 
 function loadHome(){
