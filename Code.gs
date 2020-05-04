@@ -1,4 +1,4 @@
-var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
+ var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=0";
 
 var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
@@ -29,6 +29,7 @@ function doGet(e){
   Route.path("student_view", loadStudentView);
   Route.path("faculty_view", loadFacultyView);
   Route.path("student_review", loadStudentReview);
+  Route.path("see_reviews", loadAllStudentReviews);
   Route.path("student_details", loadStudentDetails);
   Route.path("add_review", loadAddReview);
   Route.path("profile", loadProfile);
@@ -126,10 +127,27 @@ function loadStudentReview(){
 }
 
 function loadStudentDetails(e){
+  /*
   var uin = e.parameters.uin;
   var args = {};
   args.record = getStudentInfo(uin)[0];
   return render("student_details", args);
+  */
+  
+  var uin = e.parameters.uin;
+  var filtered_student_record = getThatStudentInfo(uin);
+  var tmp = HtmlService.createTemplateFromFile("student_details");
+  tmp.record = filtered_student_record[0];
+  return tmp.evaluate();
+}
+
+function loadAllStudentReviews(e){
+  var uin = e.parameters.uin;
+  var filtered_student_reviews = getStudentReviews(uin);
+  var tableDataHtml = convertFilteredStudentReviewsDataToHTMLTable(filtered_student_reviews);
+  var tmp = HtmlService.createTemplateFromFile("see_reviews");
+  tmp.tableDataHtml = tableDataHtml;
+  return tmp.evaluate();
 }
 
 function loadAddReview(e){
@@ -559,4 +577,10 @@ function getScriptUrl(){
   eval(UrlFetchApp.fetch('https://cdn.rawgit.com/medialize/URI.js/gh-pages/src/URI.js').getContentText());
   var uri = URI(ScriptApp.getService().getUrl());
   return uri.directory('/a/tamu.edu'+uri.directory());
+}
+
+function getMyScriptUrl(){
+  var urlString = ScriptApp.getService().getUrl();
+  var newUrlString = urlString.substring(0, 25) + "/a/tamu.edu" + urlString.substring(25);
+  return newUrlString;
 }

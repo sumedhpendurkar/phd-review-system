@@ -16,18 +16,6 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
-  
-  <div class="navbar-fixed">
-        <nav>
-          <div class="nav-wrapper tamu-navbar">
-            <a href="#" class="brand-logo">Ph.D. Review System</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li class="active"><a href="<?= getScriptUrl();?>?v=faculty_view">Review Monitor</a></li>
-              <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
-            </ul>
-          </div>
-        </nav>
-      </div>
     
     <div id="view-student-info" style = "margin-left: 10px;">
           <div >
@@ -52,78 +40,75 @@
                 </div>
               </div>
               <div class='row'>
-                <div class="input-field col s3">
-                  <select id = "start-semester" name="start-semester"  disabled>
-                      <option value="" disabled selected><?= record[6] ?></option>
-                  </select>
-                  <label for="start-semester"> Start Semester </label>
+              
+                 <div class="input-field col s4">
+                  <input id="start-semester" type="text" class="validate" value="<?= record[6] ?>" disabled>
+                  <label for="start-semester">Start Semester</label>
                 </div>
+                
                 <div class="input-field col s2 ">
-                  <select id="qual" class="validate"  disabled>
-                    <option value="" selected><?= record[12] ?></option>
-                  </select>
-                  <label for="qual_exam">Qual Exam</label>
+                  <input id="qualifer-exam" type="text" <? var display = (record[12] == 0 ? 'Fail' : 'Pass'); ?> value="<?= display ?>" disabled>
+                  <label for="qualifer-exam">Qual Exam</label>
                 </div>
+                
                 <div class="input-field col s2">
-                  <select id="attempts" class="validate"  disabled>
-                    <option value="1" selected><?= record[13] ?></option>
-                  </select>
-                  <label for="attempts">Attempts completed</label>
+                  <input id="number_qual_exam_attempts" type="text" value="<?= record[13] ?>" disabled>
+                  <label for="number_qual_exam_attempts">Attempts Completed</label>
                 </div>
 
               </div>
 
               <div class="row">
-                <div class="input-field col s3">
-                  <select id="advisor" class="validate" disabled>
-                    <option value="null" disabled selected><?= record[9] ?></option>
-                  </select>
+                                
+                 <div class="input-field col s3">
+                  <input id="advisor" type="text" value="<?= record[9] ?>" disabled>
                   <label for="advisor">Advisor</label>
                 </div>
                 <div class="input-field col s3">
-                  <select id="co-advisor" class="validate" disabled>
-                    <option value="null" disabled selected><?= record[10] ?></option>
-                    <option value="none">no co-advisor</option>
-                  </select>
-                  <label for="advisor">Co-Advisor</label>
+                  <input id="co-advisor" type="text" value="<?= record[10] ?>" disabled>
+                  <label for="co-advisor">Co-Advisor</label>
                 </div>
                 <div class="input-field col s2">
-                  <input id="rating" type="text" class="validate"  disabled>
-                  <label for="rating">Rating</label>
                 </div>
+               
               </div>
 
               <div class="row">
+                
                 <div class="input-field col s2">
-                  <select id="degree-plan" class="validate" disabled>
-                    <option value="" selected><?= record[11] ?></option>
-                  </select>
-                  <label for="dpf">Degree Plan Filed?</label>
+                  <input id="degree-plan-submitted" type="text" <? var display = (record[11] == 0 ? 'No' : 'Yes'); ?> value="<?= display ?>" disabled>
+                  <label for="degree-plan-submitted">Degree Plan Submitted</label>
                 </div>
-                <div class="input-field col s2">
-                  <input id="prelim-date" type="text" class="datepicker" value="<?= record[15] ?>" disabled>
+                
+                <div class="input-field col s3">
+                  <input id="prelim-date" type="text" value="<?= record[15] ?>" disabled>
                   <label for="prelim-date">Prelim Date</label>
                 </div>
-                <div class="input-field col s2" >
-                <input type="text" class="datepicker" id="proposal-date" value="<?= record[16] ?>" disabled>
+                
+                <div class="input-field col s3" >
+                  <input id="proposal-date" type="text" value="<?= record[16] ?>" disabled>
                   <label for="proposal-date">Proposal Date</label>
                 </div>
-                <div class="input-field col s2" disabled>
-                  <input type="text" class="datepicker" id="defense-date" value="<?= record[17] ?>" disabled>
-                  <label for="defense-date">Final Defense Date</label>
+                <!-- THIS CAN BE USED INSTEAD WHEN TO GIVE A GOOD FORMAT TO DATES>
+                 <!--input type="text" class="datepicker" id="defense-date" disabled>
+                  <label for="defense-date">Final Defense Date</label-->
+                  <!----input id="final-defense-date" type="text" value="<!?= Utilities.formatDate(record[17], 'US/Central', 'MMMM dd, yyyy'); ?>" disabled>
+                  <label for="final-defense-date">Final Defense Date</label-->
+                <div class="input-field col s3" disabled>
+                  <input id="final-defense-date" type="text" value="<?= record[17] ?>" disabled>
+                  <label for="final-defense-date">Final Defense Date</label>
                 </div>
+                
               </div>
 
-            <div class="row">
-              <a class="btn waves-effect waves-light" href="<?= record[14] ?>"> View CV </a>
-              <a class="btn waves-effect waves-light"> View Student Report </a>
-              <a class="btn waves-effect waves-light"> View Improvement Plan </a>
+            <div class="row">              
+              <a href= <? var cvpage = (record[14] == "" ? "#" : record[14]) ?> <?= cvpage ?> class="btn waves-effect waves-light" type="submit" name="action"> View CV
+              </a>
+              
             </div>
             </form>
           </div>
-          <div>
-            <a href="<?= getScriptUrl();?>?v=faculty_view">Okay</a>
-          </div>
+   
         </div>
     
     
