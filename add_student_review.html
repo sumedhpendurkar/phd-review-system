@@ -21,7 +21,7 @@
           <div class="nav-wrapper tamu-navbar">
             <a href="#" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li ><a href="<?= getScriptUrl();?>?v=admin_view">Admin</a></li>
+              <li id="admin-view"><a href="<?= getScriptUrl();?>?v=admin_view">Admin</a></li>
               <li ><a href="<?= getScriptUrl();?>?v=faculty_view">Student Search</a></li>
               <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
             </ul>
@@ -29,16 +29,17 @@
         </nav>
   </div>
     
-    <div id="upload-review" style = "margin-left: 10px;">
+    <div class="container">
+    <div id="upload-review">
           <div>
-            <h4>Review for <?=lastName?>, <?=firstName?> (UIN: <?=uinValue?>)</h4>
+            <h4>Review for UIN: <?=uinValue?></h4>
             <label visible="false" class = "hide" id = "uinForThisPage" ><?=uinValue?></label>
             <br>
             <form class="col s12" >
             
-              <div class="row" style = "width: 500px;">
+              <div class="row">
 
-                <div class="input-field col s12">
+                <div class="input-field col s3">
                   <select id = "reviewYear" onchange = "onChangeReviewYear()">
                     <option value = "2020">2020</option>
                     <option value = "2019">2019</option>
@@ -50,7 +51,7 @@
 
               </div>
 
-              <div class="row" style = "width: 500px;">
+              <div class="row">
 
                 <div class="col s12">
                   <h6>Comments For Student</h6>
@@ -59,27 +60,27 @@
 
               </div>
 
-              <div class="row" style = "width: 500px;">
+              <div class="row">
 
-                <div class="input-field col s12">
+                <div class="input-field col s3">
                   <select id = "reviewSelect">
                     <option disabled selected value = "">Choose your option</option>
                     <option value = "X">Not Rated (X)</option>
                     <option value = "U">Unsatisfactory (U)</option>
                     <option value = "N">Needs Improvement (N)</option>
-                    <option value = "S">Unsatisfactory (S)</option>
+                    <option value = "S">Satisfactory (S)</option>
                   </select>
                   <label>Rating</label>
                 </div>
 
               </div>
 
-              <div class="row adminOnly" id = "adminOnlyNotes">
+              <div class="row adminOnly" id="adminOnlyNotes">
                 <div class="col s6">
                   <h6>Notes (select all that apply) </h6>
                 </div>
               </div>
-              <div class="row adminOnly" id = "adminOnlyCheckboxes" >
+              <div class="row adminOnly" id="adminOnlyCheckboxes" >
 
                 <div class="col s4">
                   <p align="left">
@@ -165,10 +166,13 @@
 
               </div>
               <a id="reviewSubmitButton" class="waves-effect waves-light btn">Submit</a>
+              <a id="viewStudentReport" class="waves-effect waves-light btn">View Student Report</a>
+              <a id="viewImprovementPlan" class="waves-effect waves-light btn">View Improvement Plan</a>
             </form>
           </div>
         </div>
         
+        </div>
         
         <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

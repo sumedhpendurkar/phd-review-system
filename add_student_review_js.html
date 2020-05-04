@@ -1,18 +1,25 @@
 
 <script>
 
-var adminMode = true;
-
+var adminMode = false;
+document.getElementById("adminOnlyNotes").style.display = 'none';
+document.getElementById("adminOnlyCheckboxes").style.display = 'none';
+document.getElementById("admin-view").style.visibility = "hidden";
+google.script.run.withSuccessHandler(setUser).isAdmin();
+function setUser(result) {
+  if (result == true) {//is Admin!
+    document.getElementById("admin-view").style.visibility = "visible";
+    adminMode = true;
+    document.getElementById("adminOnlyNotes").style.display = 'none';
+    document.getElementById("adminOnlyCheckboxes").style.display = 'none';    
+  }
+}
 function onLoadAddStudentReview() {
     // set current review year here
     /*document.getElementById("reviewYear").value = "2019";
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});*/
-    
-    if(!adminMode) {
-    document.getElementById("adminOnlyNotes").style.display = 'none';
-    document.getElementById("adminOnlyCheckboxes").style.display = 'none';
-    }
+   
     onChangeReviewYear();
 }
 
@@ -45,6 +52,11 @@ function onSuccessToGetStudentReviewInformation(result) {
     document.getElementById("needsToDoPrelim").checked = result[16] == 1 ? true : false;
     document.getElementById("needsToSubmitProposal").checked = result[17] == 1 ? true : false;
     document.getElementById("needsToFinishSoon").checked = result[18] == 1 ? true : false;
+    var viewStudentReport = document.getElementById('viewStudentReport');
+    viewStudentReport.href = result[6];
+    var viewImprovementPlan = document.getElementById('viewImprovementPlan');
+    viewImprovementPlan.href = result[7];
+    
 }
 
 var reviewSubmitButtonElement = document.getElementById("reviewSubmitButton");

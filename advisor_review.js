@@ -1,5 +1,6 @@
 var url_student_personal_details = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var url_student_review_details = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
+var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
 function getAllStudentRecords() {
   var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
@@ -17,6 +18,94 @@ function getAllStudentsReviewData() {
   var student_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
   Logger.log(student_records);
   return student_records;
+}
+
+function getAllReviewYearInformation() {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  
+  var review_year_records = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
+  Logger.log(review_year_records);
+  return review_year_records;
+}
+
+function getActiveReviewYear() {
+  var filteredData = getAllReviewYearInformation();
+  filteredData = ArrayLib.filterByText(filteredData, 1, "1");
+  Logger.log(filteredData);
+  if(filteredData.length == 1) {
+    Logger.log(filteredData[0][0]);
+    return filteredData[0][0];
+  }
+  else {
+    return "None";
+  }
+}
+
+function addNewReviewYear(newReviewYear) {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var dataExists = false;
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == newReviewYear) {
+      dataExists = true;
+      Logger.log("review year exists");
+      return "The review year already exists!";
+    } 
+  }
+  
+  Logger.log("adding new review year");
+    ws.appendRow([newReviewYear, 0]);
+  return "Review year added! Please refresh the page to view the latest review year.";
+}
+
+function endCurrentReviewYear() {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var ended = false;
+  var currentReviewYear = getActiveReviewYear();
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == currentReviewYear) {
+      ended = true;
+      ws.getRange(i + 1,1 + 1).setValue(0);
+      break;
+    } 
+  }
+  
+  if(ended) {
+    Logger.log("Ended current review year");
+    return "Ended the review year " + currentReviewYear + "! Please refresh the page to view the latest state.";
+  }
+  return "No active review year found!";
+}
+
+function beginThisReviewYear(reviewYear) {
+  var ss = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var begun = false;
+  var currentReviewYear = getActiveReviewYear();
+  
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] == reviewYear) {
+      ws.getRange(i + 1,1 + 1).setValue(1);
+      begun = true;
+      break;
+    } 
+  }
+  
+  if(begun) {
+    Logger.log("Ended current review year");
+    return "Started the review year " + reviewYear + "! Please refresh the page to view the latest state.";
+  }
+  return "Review year " + reviewYear + " not found!";
 }
 
 function getEmptyReviewData() {
