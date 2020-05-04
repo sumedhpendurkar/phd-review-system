@@ -234,7 +234,6 @@ function getProfileInformation() {
   var ws = ss.getSheetByName("Sheet1");
   var values = ws.getDataRange().getValues();
   var headers = values[0];
-  Logger.log(rowValue(values, 1, "email"));
   
   for (var i = 1; i < values.length; i++) {
     if (rowValue(values, i, "email") == userInfo.email) {
@@ -253,7 +252,7 @@ function getProfileInformation() {
         userInfo.prelime_date = rowValue(values, i, "prelim_date");
       }
       
-      if(values[i][11]!=""){
+      if(values[i][11]!="") {
         userInfo.proposal_date = rowValue(values, i, "proposal_date");
       }
       
@@ -265,6 +264,8 @@ function getProfileInformation() {
       
       break;
     }
+  
+  Logger.log(userInfo)
   }
   return userInfo;
 }

@@ -2,6 +2,8 @@ var account_sheet_url = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_
 
 var student_info_sheet_url = "https://docs.google.com/spreadsheets/d/1vSpjuhHL4BpCgV7-mdMYtCIVd4VfQpKHw16218awcV8/edit#gid=0";
 var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUVw7QQ7Lmqgzth4Mg7a79AB-aaGxqd_NkJI/edit#gid=0";
+var student_review_sheet_url = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
+var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
 var userEmail = '';
 
@@ -27,11 +29,13 @@ function doGet(e){
   
   Route.path("student_view", loadStudentView);
   Route.path("faculty_view", loadFacultyView);
+  Route.path("admin_view", loadAdminView);
   Route.path("student_review", loadStudentReview);
   Route.path("student_details", loadStudentDetails);
   Route.path("add_review", loadAddReview);
   Route.path("profile", loadProfile);
   Route.path("index", loadHome);
+  Route.path("see_reviews", loadAllStudentReviews);
   
   Logger.log(e.parameters.v);
   if(Route[cls]){
@@ -43,7 +47,7 @@ function doGet(e){
 //  Logger.log(ScriptApp.getService().getUrl());
 //  var student_records = getAllStudentRecords();
 //  //if (!e.parameter.page){
-//    var tmp = HtmlService.createTemplateFromFile("review_monitor");
+//    var tmp = HtmlService.createTemplateFromFile("student_search");
 //    tmp.records = student_records;
 //    Logger.log("records -------" + student_records[0][1]);
 //    return tmp.evaluate();
@@ -52,25 +56,6 @@ function doGet(e){
 //    Logger.log(e.parameter['page']);
     return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate(); 
   }*/
-}
-
-function getCredential(){
-  var userInfo = {};
-  userInfo.email = userEmail;
-  var view = userClickedLogin(userInfo);
-  if(view=='student_vnew'){
-    return 'student';
-  }
-  else if(view=='faculty_view'){
-    return 'faculty';
-  }
-  else if(view=='admin_view'){
-    return 'admin';
-  }
-  else{
-    return 'basic';
-  }
-  
 }
 
 function userClickedLogin(userInfo){
@@ -86,6 +71,38 @@ function userClickedLogin(userInfo){
   else{
     return 'index';
   }
+}
+
+function isAdmin(){
+  Logger.log(getCredential());
+  return "admin" == getCredential();
+}
+
+function isFaculty(){
+  return "faculty" == getCredential();
+}
+
+function isStudent(){
+  return "student" == getCredential();
+}
+
+function getCredential(){
+  var userInfo = {};
+  userInfo.email = Session.getActiveUser().getEmail();
+  var view = userClickedLogin(userInfo);
+  if(view =='student_view'){
+    return 'student';
+  }
+  else if(view =='faculty_view'){
+    return 'faculty';
+  }
+  else if(view =='admin_view'){
+    return 'admin';
+  }
+  else{
+    return 'basic';
+  }
+
 }
 
 function search(sheetName, searchTerm){//usage: search('Student', 'a.kunder@tamu.edu') or search('Faculty', 'xyz@tamu.edu')
@@ -113,6 +130,7 @@ function render(file, argsObject){
       tmp[key] = argsObject[key];
     });
   }//END IF
+  //Logger.log("in render:" + tmp["review_years"]);
   return tmp.evaluate();
 }
 
@@ -125,18 +143,44 @@ function loadStudentReview(){
 }
 
 function loadStudentDetails(e){
+  /*
   var uin = e.parameters.uin;
   var args = {};
   args.record = getStudentInfo(uin)[0];
   return render("student_details", args);
+  */
+
+  var uin = e.parameters.uin;
+  var filtered_student_record = getThatStudentInfo(uin);
+  var tmp = HtmlService.createTemplateFromFile("student_details");
+  tmp.record = filtered_student_record[0];
+  return tmp.evaluate();
+}
+
+function loadAllStudentReviews(e){
+  var uin = e.parameters.uin;
+  var filtered_student_reviews = getStudentReviews(uin);
+  var tableDataHtml = convertFilteredStudentReviewsDataToHTMLTable(filtered_student_reviews);
+  var tmp = HtmlService.createTemplateFromFile("see_reviews");
+  tmp.tableDataHtml = tableDataHtml;
+  return tmp.evaluate();
 }
 
 function loadAddReview(e){
   var args = {};
   args.uinValue = e.parameters.uin;
-  args.firstName = "Anna";
-  args.lastName = "Shekhawat";
+  Logger.log("args are ----- " + args)
   return render("add_student_review", args);
+}
+
+function getAllReviewYears() {
+  var review_year_records = getAllReviewYearInformation();
+  Logger.log(review_year_records);
+  var all_review_years = review_year_records.map(function(r){return r[0];});
+  all_review_years.sort();
+  all_review_years.reverse();
+  Logger.log(all_review_years);
+  return all_review_years;
 }
 
 function loadStudentView() {
@@ -144,7 +188,14 @@ function loadStudentView() {
 }
 
 function loadFacultyView() {
-  return render("review_monitor");
+  return render("student_search");
+}
+
+function loadAdminView() {
+  var review_years = getAllReviewYears();
+  var args = {};
+  args.review_years = review_years;
+  return render("admin", args);
 }
 
 function loadHome(){
@@ -183,7 +234,6 @@ function getProfileInformation() {
   var ws = ss.getSheetByName("Sheet1");
   var values = ws.getDataRange().getValues();
   var headers = values[0];
-  Logger.log(rowValue(values, 1, "email"));
   
   for (var i = 1; i < values.length; i++) {
     if (rowValue(values, i, "email") == userInfo.email) {
@@ -199,21 +249,23 @@ function getProfileInformation() {
       userInfo.degreeplanstatus = rowValue(values, i, "degree_plan_submitted");
       
       if(values[i][10]!=""){
-        userInfo.prelime_date = rowValue(values, i, "prelim_date").toLocaleDateString();
+        userInfo.prelime_date = rowValue(values, i, "prelim_date");
       }
       
-      if(values[i][11]!=""){
-        userInfo.proposal_date = rowValue(values, i, "proposal_date").toLocaleDateString();
+      if(values[i][11]!="") {
+        userInfo.proposal_date = rowValue(values, i, "proposal_date");
       }
       
       if(values[i][12]!=""){
-      userInfo.defense_date = rowValue(values, i, "final_defense_date").toLocaleDateString();
+      userInfo.defense_date = rowValue(values, i, "final_defense_date");
       }
       
       userInfo.cv_url = rowValue(values, i, "cv_link");
       
       break;
     }
+  
+  Logger.log(userInfo)
   }
   return userInfo;
 }
@@ -319,27 +371,18 @@ function uploadFileToDrive(content, filename, email,file_type){
       var file_url = fl.getUrl();
       update_file_url(email,file_url);
       
-      fileId = fl.getId();
-      Drive.Permissions.insert(
-        {
-          'role': 'reader',
-          'type': 'user',
-          'value': email
-        },
-        fileId,
-        {
-          'sendNotificationEmails': 'false'
-        });
+//      fileId = fl.getId();
+//      Drive.Permissions.insert(
+//        {
+//          'role': 'reader',
+//          'type': 'user',
+//          'value': email
+//        },
+//        fileId,
+//        {
+//          'sendNotificationEmails': 'false'
+//        });
       
-//      s_folder.createFile(blob);
-//      var file_url;
-//      var files = s_folder.getFilesByName(new_file_name);
-//      while (files.hasNext()) { 
-//        var file = files.next();
-//        if(file.getName()==new_file_name){
-//            file_url = file.getUrl();
-//        }
-//      }
     }
     
     
@@ -350,6 +393,89 @@ function uploadFileToDrive(content, filename, email,file_type){
   }
   
 }
+
+
+function uploadIp_R_ToDrive(content, filename,file_type,year){
+  
+  var email = Session.getActiveUser().getEmail();
+  try {
+    var dropbox = "phd_review_dev";
+    var folder, folders = DriveApp.getFoldersByName(dropbox);
+
+    if (folders.hasNext()) {
+      folder = folders.next();
+    } else {
+      folder = DriveApp.createFolder(dropbox);
+    }
+    
+    if (!folderExistsIn(folder,email)){
+      folder.createFolder(email);
+    }
+    
+    var s_folder, s_folders = DriveApp.getFoldersByName(email);
+    
+    if (s_folders.hasNext()) {
+      s_folder = s_folders.next();
+    }
+    
+    if (!folderExistsIn(s_folder,year)){
+      s_folder.createFolder(year);
+    }
+    
+    var y_folder, y_folders = DriveApp.getFoldersByName(year);
+    if (y_folders.hasNext()) {
+      y_folder = y_folders.next();
+      var c  = y_folder.getFiles();
+      if (c.hasNext()){
+        while (c.hasNext()){
+          file = c.next();
+          file_name = file.getName();
+          if (file_name.indexOf(file_type[0])==0){
+            file_id = file.getId();
+            y_folder.removeFile(file);
+          }
+        }
+//        while (c.hasNext()){
+//          file = c.next();
+//          file_name = file.getName();
+//          if (file_name.indexOf(file_type[0])==0){
+//            file.setName("p"+file_name);
+//          }
+//        }
+        Logger.log("Previous similar type file deleted");
+      }
+      
+      var new_file_name = file_type+"_"+filename;
+      var contentType = content.substring(5,content.indexOf(';')),
+          bytes = Utilities.base64Decode(content.substr(content.indexOf('base64,')+7)),
+          blob = Utilities.newBlob(bytes, contentType, new_file_name);
+          
+      fl = y_folder.createFile(blob);
+      var file_url = fl.getUrl();
+      update_review_files_url(email,file_url,file_type,year);
+      
+//      fileId = fl.getId();
+//      Drive.Permissions.insert(
+//        {
+//          'role': 'reader',
+//          'type': 'user',
+//          'value': email
+//        },
+//        fileId,
+//        {
+//          'sendNotificationEmails': 'false'
+//        });
+ 
+    }
+  }
+  catch (f){
+    return f.toString();
+  }
+}
+
+
+
+
 
 function update_file_url(email,file_url){
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
@@ -364,6 +490,98 @@ function update_file_url(email,file_url){
   }
   
   Logger.log("file url Updated")
+}
+
+
+
+
+function update_review_files_url(email,file_url,file_type,year){
+//  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  
+  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
+  var ww = rs.getSheetByName("Sheet1");
+  var rdataRange = ww.getDataRange();
+  var rvalues = rdataRange.getValues();
+  var flag = false;
+  
+  for (var i = 0; i < rvalues.length; i++) {
+    if (rvalues[i][0] == uin && rvalues[i][1] == year) {
+      flag=true;
+      if(file_type=="re"){
+        ww.getRange(i+1,6+1).setValue(file_url);
+      }
+      else{
+        ww.getRange(i+1,7+1).setValue(file_url);
+      }
+    }
+  }
+  
+  if(!flag){
+    if(file_type=="re"){
+      ww.appendRow([uin,year,"","","","",file_url
+                 ]);
+    }
+    else{
+      ww.appendRow([uin,year,"","","","","",file_url
+                 ]);
+    }
+      
+  }
+  
+  
+  Logger.log("file url Updated")
+}
+
+
+
+function get_urls(year){
+  
+  var email = Session.getActiveUser().getEmail();
+  var urls ={};
+  urls.report="";
+  urls.improvement = "";
+  
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  
+  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
+  var ww = rs.getSheetByName("Sheet1");
+  var rdataRange = ww.getDataRange();
+  var rvalues = rdataRange.getValues();
+  var flag = false;
+  
+  for (var i = 0; i < rvalues.length; i++) {
+    if (rvalues[i][0] == uin && rvalues[i][1] == year) {
+      if(rvalues[i][6]!=""){
+        urls.report = rvalues[i][6];
+      }
+      if(rvalues[i][7]!=""){
+        urls.improvement = rvalues[i][7];
+      }
+      
+    }
+  }
+  
+  return urls;
+
 }
 
 //////////////////////////////////////
@@ -391,4 +609,10 @@ function getScriptUrl(){
   eval(UrlFetchApp.fetch('https://cdn.rawgit.com/medialize/URI.js/gh-pages/src/URI.js').getContentText());
   var uri = URI(ScriptApp.getService().getUrl());
   return uri.directory('/a/tamu.edu'+uri.directory());
+}
+
+function getMyScriptUrl(){
+  var urlString = ScriptApp.getService().getUrl();
+  var newUrlString = urlString.substring(0, 25) + "/a/tamu.edu" + urlString.substring(25);
+  return newUrlString;
 }
