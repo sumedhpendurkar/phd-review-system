@@ -1,17 +1,19 @@
 
 <script>
 
-var adminMode = true;
-
+var adminMode = false;
+ document.getElementById("adminOnlyNotes").style.display = 'hidden';
+ document.getElementById("adminOnlyCheckboxes").style.display = 'hidden';
 function onLoadAddStudentReview() {
     // set current review year here
     /*document.getElementById("reviewYear").value = "2019";
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});*/
     
-    if(!adminMode) {
-    document.getElementById("adminOnlyNotes").style.display = 'none';
-    document.getElementById("adminOnlyCheckboxes").style.display = 'none';
+    if(isAdmin() == true) {
+    adminMode = true;
+    document.getElementById("adminOnlyNotes").style.display = 'visible';
+    document.getElementById("adminOnlyCheckboxes").style.display = 'visible';
     }
     onChangeReviewYear();
 }
