@@ -73,9 +73,22 @@ function userClickedLogin(userInfo){
   }
 }
 
+function isAdmin(){
+  Logger.log(getCredential());
+  return "admin" == getCredential();
+}
+
+function isFaculty(){
+  return "faculty" == getCredential();
+}
+
+function isStudent(){
+  return "student" == getCredential();
+}
+
 function getCredential(){
   var userInfo = {};
-  userInfo.email = userEmail;
+  userInfo.email = Session.getActiveUser().getEmail();
   var view = userClickedLogin(userInfo);
   if(view =='student_view'){
     return 'student';
