@@ -245,7 +245,7 @@ function getStudentReviews(uin){
 
   var student_reviews = ws.getRange(2, 1, ws.getRange("A1").getDataRegion().getLastRow() - 1, ws.getRange("A1").getDataRegion().getLastColumn()).getValues();
   var filtered_student_reviews = ArrayLib.filterByText(student_reviews, 0, uin);
-  
+
   return filtered_student_reviews;
 }
 

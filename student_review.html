@@ -12,19 +12,26 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       
       <base target="_top">
+      
     </head>
 
     <body>
-      <div class="navbar-fixed">
-        <nav>
+      <div class="navbar-fixed" style="height: 110px">
+        <nav class="nav-extended tamu-navbar">
           <div class="nav-wrapper tamu-navbar">
-            <a href="#" class="brand-logo">Ph.D. Review System</a>
+            <a href="javascript:void(0)" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="<?= getScriptUrl();?>?page=student_info.html">Student Information</a></li>
-              <li class="active"><a href="<?= getScriptUrl();?>?page=student_review.html">Reviews</a></li>
-              <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>              
+              <li><a href="<?= getScriptUrl();?>?v=student_info">Student Information</a></li>
+              <li class="active"><a href="<?= getScriptUrl();?>?v=student_review">Reviews</a></li>
+              <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
+
             </ul>
           </div>
+      <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+         <li class="tab"><a href="javascript:void(0)" class="active">Student View</a></li>
+      </ul>
+    </div>
         </nav>
       </div>
 

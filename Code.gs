@@ -253,6 +253,7 @@ function getProfileInformation() {
         userInfo.prelime_date = rowValue(values, i, "prelim_date").toISOString();
       }
       
+
       if(rowValue(values, i, "proposal_date")!="") {
         userInfo.proposal_date = rowValue(values, i, "proposal_date").toISOString();
       }
@@ -265,6 +266,8 @@ function getProfileInformation() {
       
       break;
     }
+  
+  Logger.log(userInfo)
   }
   Logger.log("Returning Userinfo");
   Logger.log(userInfo);

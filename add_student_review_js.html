@@ -10,8 +10,9 @@ function setUser(result) {
   if (result == true) {//is Admin!
     document.getElementById("admin-view").style.visibility = "visible";
     adminMode = true;
-    document.getElementById("adminOnlyNotes").style.display = 'none';
-    document.getElementById("adminOnlyCheckboxes").style.display = 'none';    
+    document.getElementById("adminOnlyNotes").style.display = 'inline';
+    document.getElementById("adminOnlyCheckboxes").style.display = 'inline';
+    document.getElementById("view-name").innerHTML = "Admin View";
   }
 }
 function onLoadAddStudentReview() {
