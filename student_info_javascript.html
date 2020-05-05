@@ -174,13 +174,22 @@
       a.href = userInfo.cv_url;
     }
     
-    M.updateTextFields();
     google.script.run.withSuccessHandler(function(activeYear) {    
       if(activeYear == "None") {
         console.log(activeYear);
         $('input').attr('disabled', true);
+        document.getElementById('VCV').disabled = true;
+        document.getElementById('update').disabled = true;
+        document.getElementById('discard').disabled = true;
+        document.getElementById('filename').disabled = true;
+        document.getElementById('up').classList.remove("btn") ;
+        alert(" No Active Review Year");
       }
     }).getActiveReviewYear();
+    
+    M.updateTextFields();
+    
+    
 
   }
 

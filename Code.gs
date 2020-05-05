@@ -5,6 +5,7 @@ var faculty_data_sheet_url = "https://docs.google.com/spreadsheets/d/1QzU70E5pUV
 var student_review_sheet_url = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
 var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
+
 var userEmail = '';
 
 var Route = {};
@@ -505,8 +506,8 @@ function update_review_files_url(email,file_url,file_type,year){
     }
   }
   
-  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
-  var ww = rs.getSheetByName("Sheet1");
+  var rs = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ww = rs.getSheetByName("Sheet2");
   var rdataRange = ww.getDataRange();
   var rvalues = rdataRange.getValues();
   var flag = false;
@@ -515,24 +516,23 @@ function update_review_files_url(email,file_url,file_type,year){
     if (rvalues[i][0] == uin && rvalues[i][1] == year) {
       flag=true;
       if(file_type=="re"){
-        ww.getRange(i+1,6+1).setValue(file_url);
+        ww.getRange(i+1,2+1).setValue(file_url);
       }
       else{
-        ww.getRange(i+1,7+1).setValue(file_url);
+        ww.getRange(i+1,3+1).setValue(file_url);
       }
     }
   }
   
   if(!flag){
     if(file_type=="re"){
-      ww.appendRow([uin,year,"","","","",file_url
+      ww.appendRow([uin,year,file_url
                  ]);
     }
     else{
-      ww.appendRow([uin,year,"","","","","",file_url
+      ww.appendRow([uin,year,"",file_url
                  ]);
     }
-      
   }
   
   
@@ -578,18 +578,18 @@ function get_urls(uin, year){
   urls.report="";
   urls.improvement = "";
 
-  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
-  var ww = rs.getSheetByName("Sheet1");
+  var rs = SpreadsheetApp.openByUrl(url_review_year_information);
+  var ww = rs.getSheetByName("Sheet2");
   var rdataRange = ww.getDataRange();
   var rvalues = rdataRange.getValues();
   
   for (var i = 0; i < rvalues.length; i++) {
     if (rvalues[i][0] == uin && rvalues[i][1] == year) {
-      if(rvalues[i][6]!=""){
-        urls.report = rvalues[i][6];
+      if(rvalues[i][2]!=""){
+        urls.report = rvalues[i][2];
       }
-      if(rvalues[i][7]!=""){
-        urls.improvement = rvalues[i][7];
+      if(rvalues[i][3]!=""){
+        urls.improvement = rvalues[i][3];
       } 
     }
   }
@@ -621,10 +621,10 @@ function getReviewDetails(year){
   
   for (var i = 0; i < rvalues.length; i++) {
     if (rvalues[i][0] == uin && rvalues[i][1] == year && rvalues[i][2]!="admin") {
-      if (rvalues[i][2]!=""){
+      
 //        comments += " Reviewer Name: "+ rvalues[i][2]+"\t\t\t\t";
-        comments += rvalues[i][8]+"\n\n";
-      }
+      comments += rvalues[i][8]+"\n";
+      
     }  
   }
   
