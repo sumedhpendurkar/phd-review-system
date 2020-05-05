@@ -13,8 +13,10 @@ document.getElementById("admin-view").style.visibility = "hidden";
 google.script.run.withSuccessHandler(hideAdminView).isAdmin();
 
 function hideAdminView(result) {
-  if (result == true) //is not Admin!
+  if (result == true) {
+    document.getElementById("view-name").innerHTML = "Admin View";
     document.getElementById("admin-view").style.visibility = "visible";
+  }
 }
 // ---------- slickgrid stuff ------------
 

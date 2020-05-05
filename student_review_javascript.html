@@ -13,22 +13,36 @@ function initialize(){
 }
 
 function uploadClicked(){
-  var year = document.getElementById("review-year").value;
+  
   var ip = document.getElementById("improvement").files[0];
   var re = document.getElementById("report").files[0];
-  if (ip){
   
-    var d = document.getElementById('ip_url');
-    d.removeAttribute("href");
-    document.getElementById('VI').disabled = true;
-    uploadFile(ip,"ip",year);
-  }
-  if (re){
-    var c = document.getElementById('re_url');
-    c.removeAttribute("href");
+  if (ip || re){
     
-    document.getElementById('VR').disabled = true;
-    uploadFile(re,"re",year);
+    document.getElementById('rname').value = "";
+    document.getElementById('iname').value = "";
+  
+    var year = document.getElementById("review-year").value;
+  
+    if (ip){
+  
+      var d = document.getElementById('ip_url');
+      d.removeAttribute("href");
+      document.getElementById('VI').disabled = true;
+      uploadFile(ip,"ip",year);
+    }
+    if (re){
+      var c = document.getElementById('re_url');
+      c.removeAttribute("href");
+    
+      document.getElementById('VR').disabled = true;
+      uploadFile(re,"re",year);
+    }
+  }
+  else{
+  
+    alert(" Nothing to Upload");
+ 
   }
 }
 
@@ -61,9 +75,11 @@ function reset_fields(){
   var b = document.getElementById("report");
   b.value = "";
     
+  document.getElementById('rname').value = "";
+  document.getElementById('iname').value = "";
+  
   get_data1();
   
-  console.log("Exiting");
 }
 
 
@@ -78,15 +94,25 @@ function get_data(){
   var b = document.getElementById('ip_url');
   b.removeAttribute("href");
   
-  var year = document.getElementById("review-year").value;
-  google.script.run.withSuccessHandler(onSuccess).get_urls(year);
+  google.script.run.withSuccessHandler(get_links).check_uin();
 } 
+
+function get_links(uin){
+
+  if (uin != ""){
+    var year = document.getElementById("review-year").value;
+    google.script.run.withSuccessHandler(onSuccess).get_urls(uin,year);
+  }else{
+    alert("UIN not found Enter UIN first and then upload ");
+  }
+}
 
 
 function get_data1(){
-  
-  var year = document.getElementById("review-year").value;
-  google.script.run.withSuccessHandler(onSuccess).get_urls(year);
+
+  google.script.run.withSuccessHandler(get_links).check_uin();
+//  var year = document.getElementById("review-year").value;
+//  google.script.run.withSuccessHandler(onSuccess).get_urls(year);
 } 
 
 
@@ -124,15 +150,31 @@ function check_ip(){
 function check_re(){
   var b = document.getElementById('re_url');
   if(b.href==""){
-    alert("Improvement Plan not uploaded for this review year");
+    alert("Report not uploaded for this review year");
   }
 }
 
 function get_comments(){
-  var x = document.getElementById("rde");
-  x.style.display = "block";
+  
+  var year = document.getElementById("review-year").value;
+  
+  google.script.run.withSuccessHandler(display_comments).getReviewDetails(year);
+  
 }
 
+
+function display_comments(comments){
+  if (comments !=""){
+    document.getElementById("textarea1").value = comments;
+  }
+  else{
+    document.getElementById("textarea1").value = " No Reviews Available Now";
+  }
+  
+  var x = document.getElementById("rde");
+  x.style.display = "block";
+  
+}
 
 
 // below from views/js/app.js

@@ -12,16 +12,21 @@
       <?!= include('css'); ?>
   </head>
   <body>
-  <div class="navbar-fixed">
-        <nav>
+  <div class="navbar-fixed" style="height: 110px">
+        <nav class="nav-extended tamu-navbar">
           <div class="nav-wrapper tamu-navbar">
-            <a href="#" class="brand-logo">Ph.D. Review System</a>
+            <a href="javascript.void(0);" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li id="admin-view"><a href="<?= getScriptUrl();?>?v=admin_view">Admin</a></li>
               <li ><a href="<?= getScriptUrl();?>?v=faculty_view">Student Search</a></li>
               <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
             </ul>
           </div>
+        <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+         <li class="tab"><a href="javascript:void(0)" id="view-name" class="active">Faculty View</a></li>
+      </ul>
+    </div>
         </nav>
   </div>
   <div class="container">
@@ -33,6 +38,7 @@
       <table class="striped">
       <thead>
       <tr>
+      <th>Reviewer</th>
       <th>Rating</th>
       <th>Review Year</th>
       <th>Review</th>
@@ -64,8 +70,10 @@
     google.script.run.withSuccessHandler(hideAdminView).isAdmin();
 
     function hideAdminView(result) {
-      if (result == true) //is not Admin!
+      if (result == true)  {
         document.getElementById("admin-view").style.visibility = "visible";
+        document.getElementById("view-name").innerHTML = "Admin View";
+      }
     }
 
     </script>

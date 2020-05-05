@@ -2,6 +2,8 @@ var url_student_personal_details = "https://docs.google.com/spreadsheets/d/1vSpj
 var url_student_review_details = "https://docs.google.com/spreadsheets/d/1Ndizu-BwuJ8-rexcruRsrPfot9mgVtP5RE1Qz6PDxFw/edit#gid=0";
 var url_review_year_information = "https://docs.google.com/spreadsheets/d/18EJyEDD-NufR0dtzzoXbA9mtvIQC-jr0zxF13IkWqIc/edit#gid=0";
 
+var login_sheet = "https://docs.google.com/spreadsheets/d/1UWcbToPpGux2qT_u7YHJROfdH_jlSp4-apZGEs52w08/edit#gid=287583425";
+
 function getAllStudentRecords() {
   var ss = SpreadsheetApp.openByUrl(url_student_personal_details);
   var ws = ss.getSheetByName("Sheet1");
@@ -250,7 +252,10 @@ function getStudentReviews(uin){
 function convertFilteredStudentReviewsDataToHTMLTable(filtered_student_reviews){
   var tableDataHtml = "";
   for(var i = 0; i < filtered_student_reviews.length; i++){
+    var reviewer = (filtered_student_reviews[i][2] == "admin") ? "Admin" : "Faculty";
+    
     tableDataHtml = tableDataHtml + "<tr>" + 
+                                        "<td>" + reviewer + "</td>" +
                                         "<td>" + filtered_student_reviews[i][3] + "</td>" + 
                                         "<td>" + filtered_student_reviews[i][1] + "</td>" + 
                                         "<td>" + filtered_student_reviews[i][8] + "</td>" + 

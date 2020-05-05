@@ -16,16 +16,21 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body onload = "onLoadAdmin()">
-  <div class="navbar-fixed">
-        <nav>
+  <div class="navbar-fixed" style="height: 110px">
+        <nav class="nav-extended tamu-navbar">
           <div class="nav-wrapper tamu-navbar">
-            <a href="#" class="brand-logo">Ph.D. Review System</a>
+            <a href="javascript:void(0)" class="brand-logo">Ph.D. Review System</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li class="active"><a href="<?= getScriptUrl();?>?v=admin_view">Admin</a></li>
               <li ><a href="<?= getScriptUrl();?>?v=faculty_view">Student Search</a></li>
               <li><a href="<?= getScriptUrl();?>?v=index">Logout</a></li>
             </ul>
           </div>
+      <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+         <li class="tab"><a href="javascript:void(0)" class="active">Admin View</a></li>
+      </ul>
+    </div>
         </nav>
   </div>
     

@@ -454,7 +454,7 @@ function uploadIp_R_ToDrive(content, filename,file_type,year){
       var file_url = fl.getUrl();
       update_review_files_url(email,file_url,file_type,year);
       
-//      fileId = fl.getId();
+      fileId = fl.getId();
 //      Drive.Permissions.insert(
 //        {
 //          'role': 'reader',
@@ -473,10 +473,6 @@ function uploadIp_R_ToDrive(content, filename,file_type,year){
   }
 }
 
-
-
-
-
 function update_file_url(email,file_url){
   var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
   var ws = ss.getSheetByName("Sheet1");
@@ -491,9 +487,6 @@ function update_file_url(email,file_url){
   
   Logger.log("file url Updated")
 }
-
-
-
 
 function update_review_files_url(email,file_url,file_type,year){
 //  var url = "https://docs.google.com/spreadsheets/d/1C5YZ2Lt903A-YGguYQH02JtL9vxs66sMydcD7BeZFJ4/edit#gid=0";
@@ -542,7 +535,25 @@ function update_review_files_url(email,file_url,file_type,year){
   Logger.log("file url Updated")
 }
 
-
+function check_uin(){
+  
+  var email = Session.getActiveUser().getEmail();
+  var urls ={};
+  urls.report="";
+  urls.improvement = "";
+  
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  return uin;
+}
 
 function get_urls(year){
   
@@ -582,6 +593,48 @@ function get_urls(year){
   
   return urls;
 
+}
+
+function getReviewDetails(year){
+  
+  var email = Session.getActiveUser().getEmail();
+  var comments = "";
+  
+  var ss = SpreadsheetApp.openByUrl(student_info_sheet_url);
+  var ws = ss.getSheetByName("Sheet1");
+  var dataRange = ws.getDataRange();
+  var values = dataRange.getValues();
+  var uin = "";
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][5] == email) {
+      uin = values[i][4];
+    }
+  }
+  
+  var rs = SpreadsheetApp.openByUrl(student_review_sheet_url);
+  var ww = rs.getSheetByName("Sheet1");
+  var rdataRange = ww.getDataRange();
+  var rvalues = rdataRange.getValues();
+  
+  for (var i = 0; i < rvalues.length; i++) {
+    if (rvalues[i][0] == uin && rvalues[i][1] == year && rvalues[i][2]!="admin") {
+      if (rvalues[i][2]!=""){
+        comments += " Reviewer Name: "+ rvalues[i][2]+"\t\t\t\t";
+        comments += "Comments : "+ rvalues[i][8]+"\n\n";
+      }
+    }
+    if(rvalues[i][0] == uin && rvalues[i][1] == year && rvalues[i][2]!="admin") {
+      
+      comments+=" Departmental Review : \n\n";
+      comments += "Rating :"+ rvalues[i][3];
+      comments += "\n\nRating :"+ rvalues[i][3];
+      
+    
+    }  
+  }
+  
+  return comments;
+  
 }
 
 //////////////////////////////////////
