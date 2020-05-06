@@ -1,7 +1,8 @@
 <script>
   function resetProfileFields() {  
   
-     document.getElementById('VCV').disabled = false;
+//     document.getElementById('VCV').disabled = false;
+     document.getElementById('filename').value = "";
      google.script.run.withSuccessHandler(onSuccess).getProfileInformation();
   }
   
@@ -68,7 +69,7 @@
     if (cv){
     
       document.getElementById('filename').value = "";
-      document.getElementById('VCV').disabled = true;
+//      document.getElementById('VCV').disabled = true;
       var d = document.getElementById('cv_url');
       d.removeAttribute("href");
       
@@ -190,7 +191,6 @@
     M.updateTextFields();
     
     
-
   }
 
 function check_cv(){
@@ -199,8 +199,6 @@ function check_cv(){
     alert("CV not Uploaded");
   }
 }
-
-
 
   // below from views/js/app.js
   
