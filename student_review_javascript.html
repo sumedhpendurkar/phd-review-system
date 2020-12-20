@@ -106,6 +106,9 @@ function get_data(){
   var x = document.getElementById("result");
   x.style.display = "none";
   
+  var x = document.getElementById("rde");
+  x.style.display = "none";
+  
   document.getElementById('upload').disabled = false;
   document.getElementById('discard').disabled = false;
   document.getElementById('rname').disabled = false;
@@ -148,6 +151,8 @@ function onSuccess(urls){
   
   var a = document.getElementById('re_url');
   var b = document.getElementById('ip_url');
+  var c = document.getElementById('dl_url');
+  
   
   if (urls.report!=""){
     console.log("ipurl"+urls.report);
@@ -157,6 +162,11 @@ function onSuccess(urls){
   if (urls.improvement!=""){
     console.log("ipurl"+urls.improvement);
     b.href = urls.improvement;
+  }
+  
+   if (urls.dl!=""){
+    console.log("dlurl"+urls.dl);
+    c.href = urls.dl;
   }
   
   document.getElementById('VR').disabled = false;

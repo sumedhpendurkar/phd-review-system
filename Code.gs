@@ -577,6 +577,7 @@ function get_urls(uin, year){
   var urls ={};
   urls.report="";
   urls.improvement = "";
+  urls.dl = "";
 
   var rs = SpreadsheetApp.openByUrl(url_review_year_information);
   var ww = rs.getSheetByName("Sheet2");
@@ -590,7 +591,10 @@ function get_urls(uin, year){
       }
       if(rvalues[i][3]!=""){
         urls.improvement = rvalues[i][3];
-      } 
+      }
+      if(rvalues[i][4]!=""){
+        urls.dl = rvalues[i][4];
+      }
     }
   }
   
